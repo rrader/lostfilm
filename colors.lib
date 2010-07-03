@@ -1,3 +1,5 @@
+# Оформление вывода
+
 if [ ! "$L_COLORS_LIB" == "LOADED" ]; then
 L_COLORS_LIB="LOADED"
 
@@ -19,4 +21,6 @@ C_white='\e[0;37m'
 C_WHITE='\e[1;37m'
 C_NONE='\033[0m'
 
+T_UP='\033[1A'
+T_DOWN='\033[1B'
 fi
