@@ -22,7 +22,7 @@ ACTION="DEFAULT"
 #конец инициализации
 
 read_config(){
-	return true
+	return 0
 }
 
 read_params(){
@@ -32,7 +32,9 @@ read_params(){
 				shift
 				ACTION="$1"
 				;;
-			*)	;;
+			*)
+				fatal_error "Неизвестный параметр $1"
+				;;
 		esac
 		shift
 	done
@@ -47,8 +49,14 @@ read_params(){
 # библиотека для цветного вывода на терминал
 . colors.lib
 
+read_params
+read_config
+
 # выполнение действий в соответствии с $ACTION
 case $ACTION in
+	"PING")
+		echo "PONG"
+		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
 		;;
