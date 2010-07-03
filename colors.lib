@@ -1,0 +1,22 @@
+if [ ! "$L_COLORS_LIB" == "LOADED" ]; then
+L_COLORS_LIB="LOADED"
+
+C_black='\e[0;30m'
+C_BLACK='\e[1;30m'
+C_red='\e[0;31m'
+C_RED='\e[1;31m'
+C_green='\e[0;32m'
+C_GREEN='\e[1;32m'
+C_yellow='\e[0;33m'
+C_YELLOW='\e[1;33m'
+C_blue='\e[0;34m'
+C_BLUE='\e[1;34m'
+C_violet='\e[0;35m'
+C_VIOLET='\e[1;35m'
+C_cyan='\e[0;36m'
+C_CYAN='\e[1;36m'
+C_white='\e[0;37m'
+C_WHITE='\e[1;37m'
+C_NONE='\033[0m'
+
+fi

@@ -1,0 +1,18 @@
+# Обработка ошибок
+if [ ! "$L_ERRORS_LIB" == "LOADED" ]; then
+L_ERRORS_LIB="LOADED"
+
+. colors.lib
+
+some_error(){
+	COLOR=$3
+	echo -e "${COLOR}[$1]${C_WHITE} $2${C_NONE}"
+	#echo "[$1] $2"
+}
+
+fatal_error(){
+	some_error 'FATAL' "$1" $C_RED
+	exit 1
+}
+
+fi

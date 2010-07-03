@@ -17,3 +17,39 @@ REPORT_JID="antigluk@gmail.com"
 LOG=1
 #конец настроек
 
+#инициализация
+ACTION="DEFAULT"
+#конец инициализации
+
+read_config(){
+	return true
+}
+
+read_params(){
+	while [ -n "$1" ]; do
+		case $1 in
+			-a|--action)
+				shift
+				ACTION="$1"
+				;;
+			*)	;;
+		esac
+		shift
+	done
+}
+
+# библиотека для работы с лостфильмом
+. lostfilm.lib
+# библиотека для работы с базой данных
+. db.lib
+# библиотека для обработки ошибок
+. errors.lib
+# библиотека для цветного вывода на терминал
+. colors.lib
+
+# выполнение действий в соответствии с $ACTION
+case $ACTION in
+	*)
+		fatal_error "Неизвестное действие $ACTION"
+		;;
+esac
