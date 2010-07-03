@@ -49,7 +49,7 @@ read_params(){
 # библиотека для цветного вывода на терминал
 . colors.lib
 
-read_params
+read_params $@
 read_config
 
 # выполнение действий в соответствии с $ACTION
