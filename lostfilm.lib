@@ -3,5 +3,8 @@
 if [ ! "$L_LOSTFILM_LIB" == "LOADED" ]; then
 L_LOSTFILM_LIB="LOADED"
 
+lostfilm_check(){
+	echo "Lostfilm Check"
+}
 
 fi

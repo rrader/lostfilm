@@ -57,6 +57,9 @@ case $ACTION in
 	"PING")
 		echo "PONG"
 		;;
+	"CHECK")
+		lostfilm_check
+		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
 		;;
