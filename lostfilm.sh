@@ -5,6 +5,7 @@
 #настройки
 DATA_DIR="/home/roma/other/lostfilm"
 CONFIG_FILE=$DATA_DIR/lostfilm_config
+DBFile=$DATA_DIR/serials.db
 TORRENTS_DIR="/home/roma/torrents/"
 DOWNLOAD_DIR="/home/roma/Downloads"
 LOG_FILE=$DATA_DIR/lostfilm.log
@@ -48,6 +49,12 @@ read_params(){
 				shift
 				SERNUM=$(($1-1))
 				;;
+<<<<<<< HEAD
+=======
+			--force)
+				FORCE=1
+				;;
+>>>>>>> init_db
 			*)
 				fatal_error "Неизвестный параметр $1"
 				;;
@@ -96,6 +103,12 @@ case $ACTION in
 	"INFO")
 		echo_config_info
 		;;
+<<<<<<< HEAD
+=======
+	"INITDB")
+		init_db
+		;;
+>>>>>>> init_db
 	*)
 		fatal_error "Неизвестное действие $ACTION"
 		;;
