@@ -6,7 +6,7 @@
 DATA_DIR="/home/roma/other/lostfilm"
 CONFIG_FILE=$DATA_DIR/lostfilm_config
 DBFile=$DATA_DIR/serials.db
-TORRENTS_DIR="/home/roma/torrents/"
+TORRENTS_DIR="/home/roma/torrents"
 DOWNLOAD_DIR="/home/roma/Downloads"
 TEMPORARY_DIR="/tmp/lostfilm"
 LOG_FILE=$DATA_DIR/lostfilm.log
@@ -99,7 +99,7 @@ echo_config_info(){
 # библиотека для цветного вывода на терминал
 . colors.lib
 
-read_params $@
+read_params "$@"
 read_config
 
 # выполнение действий в соответствии с $ACTION
@@ -121,10 +121,16 @@ case $ACTION in
 		log_it "$PURL в базе данных 1/0: $?"
 		;;
 	"PURGE")
-		[ $FORCE -eq 1 ] || fatal_error "Для подтверждения очистки добавте параметр --force"
+		[ $FORCE -eq 1 ] || fatal_error "Для подтверждения очистки базы данных добавте параметр --force"
 		if [ $FORCE -eq 1 ]; then
 			purge_base "YES, I KNOW WHAT IT IS"
 			init_db
+		fi
+		;;
+	"PURGE TORRENTS DIR")
+		[ $FORCE -eq 1 ] || fatal_error "Для подтверждения очистки папки торрентов добавте параметр --force"
+		if [ $FORCE -eq 1 ]; then
+			rm -f ${TORRENTS_DIR}/*.torrent
 		fi
 		;;
 	*)
