@@ -21,10 +21,12 @@ log_it(){
 
 log_inprogress(){
 	some_error '=>' "$1" $C_YELLOW
+	echo "[...] $1" >> $LOG_FILE
 }
 
 log_inprogress_complete(){
 	echo -e "${C_YELLOW}[$2] $4\033[s$1\033[u\033[60C$5[$3]${C_NONE}"
+	echo "[$3] $1" >> $LOG_FILE
 }
 
 log_inprogress_ok(){
@@ -49,6 +51,7 @@ log_stages(){
 		level="${level}   "
 	done
 	echo -e "${level}${C_YELLOW}=> ${C_WHITE}$2"
+	echo "${level}=> $2" >> $LOG_FILE
 }
 
 fi
