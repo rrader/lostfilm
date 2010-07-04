@@ -37,7 +37,6 @@ log_it(){
 # $1 - текст сообщения
 log_inprogress(){
 	some_error '=>' "$1" $C_YELLOW
-	echo "[...] $1" >> $LOG_FILE
 }
 
 # логирование со статусом "завершено"
