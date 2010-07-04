@@ -4,7 +4,10 @@ if [ ! "$L_LOSTFILM_LIB" == "LOADED" ]; then
 L_LOSTFILM_LIB="LOADED"
 
 lostfilm_check(){
-	echo "Lostfilm Check"
+	log_it "Начало проверки Lostfilm.TV"
+	for gname in ${gname_lines[@]}; do
+		log_it "Проверка $gname"
+	done
 }
 
 fi
