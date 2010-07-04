@@ -14,4 +14,12 @@ init_db(){
 	fi
 }
 
+torrent_exists(){
+	if [ -z "`sqlite3 $DBFile "select link from serials where link='$1'"`" ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
 fi

@@ -50,6 +50,10 @@ read_params(){
 				shift
 				SERNUM=$(($1-1))
 				;;
+			-u|--url)
+				shift
+				PURL=$1
+				;;
 			--force)
 				FORCE=1
 				;;
@@ -106,6 +110,10 @@ case $ACTION in
 		;;
 	"CHECK")
 		lostfilm_check
+		;;
+	"URLEXISTS")
+		torrent_exists $PURL
+		log_it "$PURL в базе данных 1/0: $?"
 		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
