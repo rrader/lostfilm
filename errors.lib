@@ -19,4 +19,12 @@ log_it(){
 	some_error 'INFO' "$1" $C_WHITE
 }
 
+log_inprogress(){
+	some_error '=>' "$1" $C_YELLOW
+}
+
+log_inprogress_complete(){
+	echo -e "${T_UP}${C_YELLOW}[##]${C_WHITE}\033[60C[$1]${C_NONE}"
+}
+
 fi
