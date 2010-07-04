@@ -24,6 +24,7 @@ LOG=1
 ACTION="DEFAULT"
 SERNUM=-1
 FAKE=0
+FORCE=0
 #конец инициализации
 
 read_config(){

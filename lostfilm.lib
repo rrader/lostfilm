@@ -25,6 +25,8 @@ lostfilm_check(){
 			if [ $? -eq 0 ]; then
 				log_it "Новая серия: $current"
 				add_to_base "$name" "$current"
+				cd $TORRENTS_DIR
+				[ $FAKE -eq 0 ] && wget "http://www.lostfilm.tv/download.php/$current" --header "Cookie: uid=$LOSTFILM_USERID; pass=$LOSTFILM_PASSWD" -N >/dev/null 2>&1
 			fi
 		done < $torrents_list
 		log_inprogress_ok "Проверка $gname"
