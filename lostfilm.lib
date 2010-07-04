@@ -24,11 +24,14 @@ lostfilm_check(){
 			torrent_exists $current
 			if [ $? -eq 0 ]; then
 				log_it "Новая серия: $current"
-				add_to_base "$name" "$current"
 				cd $TORRENTS_DIR
-				[ $FAKE -eq 0 ] && wget "http://www.lostfilm.tv/download.php/$current" --header "Cookie: uid=$LOSTFILM_USERID; pass=$LOSTFILM_PASSWD" -N >/dev/null 2>&1
+				[ $FAKE -eq 0 ] && wget "http://www.lostfilm.tv/download.php/$current" --header \
+					"Cookie: uid=$LOSTFILM_USERID; pass=$LOSTFILM_PASSWD" -N >/dev/null 2>&1 \
+					&& add_to_base "$name" "$current"
+				[ $FAKE -eq 0 ] || add_to_base "$name" "$current"
 			fi
 		done < $torrents_list
+		rm -f $torrents_list
 		log_inprogress_ok "Проверка $gname"
 		id=$(($id+1))
 	done
