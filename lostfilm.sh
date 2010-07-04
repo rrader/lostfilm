@@ -8,6 +8,7 @@ CONFIG_FILE=$DATA_DIR/lostfilm_config
 DBFile=$DATA_DIR/serials.db
 TORRENTS_DIR="/home/roma/torrents/"
 DOWNLOAD_DIR="/home/roma/Downloads"
+TEMPORARY_DIR="/tmp/lostfilm"
 LOG_FILE=$DATA_DIR/lostfilm.log
 LOSTFILM_USERID="781443"
 LOSTFILM_PASSWD="257cf05a8f0ebef9a07cdef0272190f8"
@@ -102,6 +103,9 @@ case $ACTION in
 		;;
 	"INITDB")
 		init_db
+		;;
+	"CHECK")
+		lostfilm_check
 		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"

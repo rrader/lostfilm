@@ -7,7 +7,7 @@ L_ERRORS_LIB="LOADED"
 some_error(){
 	COLOR=$3
 	echo -e "${COLOR}[$1]${C_WHITE} $2${C_NONE}"
-	#echo "[$1] $2"
+	echo "[$1] $2" >> $LOG_FILE
 }
 
 fatal_error(){
@@ -21,10 +21,37 @@ log_it(){
 
 log_inprogress(){
 	some_error '=>' "$1" $C_YELLOW
+	echo "[...] $1" >> $LOG_FILE
 }
 
 log_inprogress_complete(){
-	echo -e "${T_UP}${C_YELLOW}[##]${C_WHITE}\033[60C[$1]${C_NONE}"
+	echo -e "${C_YELLOW}[$2] $4\033[s$1\033[u\033[60C$5[$3]${C_NONE}"
+	echo "[$3] $1" >> $LOG_FILE
+}
+
+log_inprogress_ok(){
+	[ -z $2 ] && R='OK'
+	[ -z $2 ] || R=$2
+	log_inprogress_complete "$1" '##' "$R" $C_WHITE $C_GREEN
+}
+
+log_inprogress_error(){
+	[ -z $2 ] && R='ERROR'
+	[ -z $2 ] || R=$2
+	log_inprogress_complete "$1" '!!' "$R" $C_WHITE $C_RED
+}
+
+log_inprogress_info(){
+	log_inprogress_complete "$1" '##' "$2" $C_WHITE $C_CYAN
+}
+
+log_stages(){
+	level=""
+	for i in `seq 1 $1`; do
+		level="${level}   "
+	done
+	echo -e "${level}${C_YELLOW}=> ${C_WHITE}$2${C_NONE}"
+	echo "${level}=> $2" >> $LOG_FILE
 }
 
 fi
