@@ -50,7 +50,7 @@ log_stages(){
 	for i in `seq 1 $1`; do
 		level="${level}   "
 	done
-	echo -e "${level}${C_YELLOW}=> ${C_WHITE}$2"
+	echo -e "${level}${C_YELLOW}=> ${C_WHITE}$2${C_NONE}"
 	echo "${level}=> $2" >> $LOG_FILE
 }
 
