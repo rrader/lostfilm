@@ -43,4 +43,12 @@ log_inprogress_info(){
 	log_inprogress_complete "$1" '##' "$2" $C_WHITE $C_CYAN
 }
 
+log_stages(){
+	level=""
+	for i in `seq 1 $1`; do
+		level="${level}   "
+	done
+	echo -e "${level}${C_YELLOW}=> ${C_WHITE}$2"
+}
+
 fi
