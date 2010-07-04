@@ -20,6 +20,7 @@ LOG=1
 
 #инициализация
 ACTION="DEFAULT"
+SERNUM=-1
 #конец инициализации
 
 read_config(){
@@ -30,7 +31,7 @@ read_config(){
 		name_lines[$index]="`echo "$line" | awk '-F|' '{ print $1 }'`"
 		gname_lines[$index]="`echo "$line" | awk '-F|' '{ print $2 }'`"
 		url_lines[$index]="`echo "$line" | awk '-F|' '{ print $3 }'`"
-		path_lines[$index]="`echo "$line" | awk '-F|' '{ print $4 }'`"
+		path_lines[$index]="`echo "$line" | awk '-F|' '{ print $4 }' | sed "s/%GNAME%/${gname_lines[$index]}/g"`"
 		index=$(($index+1))
 	done < $CONFIG_FILE
 	return 0
@@ -43,12 +44,36 @@ read_params(){
 				shift
 				ACTION="$1"
 				;;
+			-s|--serial)
+				shift
+				SERNUM=$(($1-1))
+				;;
 			*)
 				fatal_error "Неизвестный параметр $1"
 				;;
 		esac
 		shift
 	done
+}
+
+echo_serial_info(){
+	echo -e "${C_cyan}Название:    ${C_YELLOW}$1${C_NONE}"
+	echo -e "${C_cyan}Кодовое имя: ${C_YELLOW}$2${C_NONE}"
+	echo -e "${C_cyan}URL:         ${C_YELLOW}$3${C_NONE}"
+	echo -e "${C_cyan}Папка:       ${C_YELLOW}$4${C_NONE}"
+}
+
+echo_config_info(){
+	i=0
+	if [ $SERNUM -eq -1 ]; then
+		for gname in ${gname_lines[@]}; do
+			echo_serial_info ${gname} ${name_lines[$i]} ${url_lines[$i]} ${path_lines[$i]}
+			echo -e "${C_CYAN}---------------------------------------------${C_NONE}"
+			i=$(($i+1))
+		done
+	else
+		echo_serial_info ${gname_lines[$SERNUM]} ${name_lines[$SERNUM]} ${url_lines[$SERNUM]} ${path_lines[$SERNUM]}
+	fi
 }
 
 # библиотека для работы с лостфильмом
@@ -67,6 +92,12 @@ read_config
 case $ACTION in
 	"PING")
 		echo "PONG"
+		;;
+	"INFO")
+		echo_config_info
+		;;
+	"INITDB")
+		init_db
 		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
