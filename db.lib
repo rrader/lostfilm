@@ -4,6 +4,8 @@ L_DB_LIB="LOADED"
 
 . errors.lib
 
+[ -f $DBFile ] || db_error "Файл базы данных не найден"
+
 init_db(){
 	log_it "Init DB $DBFile"
 	if [ -e "$DBFile" ] && [ $FORCE -eq 1 ] || [ ! -e "$DBFile" ]; then
@@ -14,12 +16,22 @@ init_db(){
 	fi
 }
 
+# Проверка на существование торрента в базе
+# $1 - URL
 torrent_exists(){
 	if [ -z "`sqlite3 $DBFile "select link from serials where link='$1'"`" ]; then
 		return 0
 	else
 		return 1
 	fi
+}
+
+# Добавление адреса в базу
+# $1 - кодовое имя
+# $2 - URL
+add_to_base(){
+	torrent_exists $2
+	[ $? -eq 0 ] && sqlite3 $DBFile "insert into serials values('$1','$2');"
 }
 
 fi

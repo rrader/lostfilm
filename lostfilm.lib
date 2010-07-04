@@ -17,8 +17,16 @@ lostfilm_check(){
 		log_inprogress "Проверка $gname"
 		log_stages 1 "Загрузка списка торрент-файлов"
 		wget -q -O- $url | grep -o "/download.php/.*${name}.*\.torrent" \
-				| grep -ir "S[0-9]\{1,\}E[0-9]\{1,\}" | sort -u > $torrents_list
-		
+				| grep -ir "S[0-9]\{1,\}E[0-9]\{1,\}" | sed -r "s/\/download.php\/(.*${name}.*\.torrent)/\1/g" \
+				| sort -u > $torrents_list
+		log_stages 1 "Обнаружение новых серий по базе данных"
+		while read current; do
+			torrent_exists $current
+			if [ $? -eq 0 ]; then
+				log_it "Новая серия: $current"
+				add_to_base "$name" "$current"
+			fi
+		done < $torrents_list
 		log_inprogress_ok "Проверка $gname"
 		id=$(($id+1))
 	done
