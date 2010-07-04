@@ -6,7 +6,8 @@ L_LOSTFILM_LIB="LOADED"
 lostfilm_check(){
 	log_it "Начало проверки Lostfilm.TV"
 	for gname in ${gname_lines[@]}; do
-		log_it "Проверка $gname"
+		log_inprogress "Проверка $gname"
+		log_inprogress_ok "Проверка $gname"
 	done
 }
 

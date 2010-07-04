@@ -19,4 +19,28 @@ log_it(){
 	some_error 'INFO' "$1" $C_WHITE
 }
 
+log_inprogress(){
+	some_error '=>' "$1" $C_YELLOW
+}
+
+log_inprogress_complete(){
+	echo -e "${C_YELLOW}[$2] $4\033[s$1\033[u\033[60C$5[$3]${C_NONE}"
+}
+
+log_inprogress_ok(){
+	[ -z $2 ] && R='OK'
+	[ -z $2 ] || R=$2
+	log_inprogress_complete "$1" '##' "$R" $C_WHITE $C_GREEN
+}
+
+log_inprogress_error(){
+	[ -z $2 ] && R='ERROR'
+	[ -z $2 ] || R=$2
+	log_inprogress_complete "$1" '!!' "$R" $C_WHITE $C_RED
+}
+
+log_inprogress_info(){
+	log_inprogress_complete "$1" '##' "$2" $C_WHITE $C_CYAN
+}
+
 fi
