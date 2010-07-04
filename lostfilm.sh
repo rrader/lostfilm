@@ -4,6 +4,7 @@
 
 #настройки
 DATA_DIR="/home/roma/other/lostfilm"
+CONFIG_FILE=$DATA_DIR/lostfilm_config
 TORRENTS_DIR="/home/roma/torrents/"
 DOWNLOAD_DIR="/home/roma/Downloads"
 LOG_FILE=$DATA_DIR/lostfilm.log
@@ -22,6 +23,16 @@ ACTION="DEFAULT"
 #конец инициализации
 
 read_config(){
+	IFS=$'\n'
+	index=0
+
+	while read line ; do
+		name_lines[$index]="`echo "$line" | awk '-F|' '{ print $1 }'`"
+		gname_lines[$index]="`echo "$line" | awk '-F|' '{ print $2 }'`"
+		url_lines[$index]="`echo "$line" | awk '-F|' '{ print $3 }'`"
+		path_lines[$index]="`echo "$line" | awk '-F|' '{ print $4 }'`"
+		index=$(($index+1))
+	done < $CONFIG_FILE
 	return 0
 }
 
