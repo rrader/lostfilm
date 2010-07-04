@@ -23,6 +23,7 @@ LOG=1
 #инициализация
 ACTION="DEFAULT"
 SERNUM=-1
+FAKE=0
 #конец инициализации
 
 read_config(){
@@ -53,6 +54,9 @@ read_params(){
 			-u|--url)
 				shift
 				PURL=$1
+				;;
+			--fake)
+				FAKE=1
 				;;
 			--force)
 				FORCE=1
