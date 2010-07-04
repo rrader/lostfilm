@@ -49,12 +49,9 @@ read_params(){
 				shift
 				SERNUM=$(($1-1))
 				;;
-<<<<<<< HEAD
-=======
 			--force)
 				FORCE=1
 				;;
->>>>>>> init_db
 			*)
 				fatal_error "Неизвестный параметр $1"
 				;;
@@ -103,12 +100,9 @@ case $ACTION in
 	"INFO")
 		echo_config_info
 		;;
-<<<<<<< HEAD
-=======
 	"INITDB")
 		init_db
 		;;
->>>>>>> init_db
 	*)
 		fatal_error "Неизвестное действие $ACTION"
 		;;
