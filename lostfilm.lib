@@ -5,9 +5,22 @@ L_LOSTFILM_LIB="LOADED"
 
 lostfilm_check(){
 	log_it "Начало проверки Lostfilm.TV"
+	mkdir -p "$TEMPORARY_DIR"
+	id=0
 	for gname in ${gname_lines[@]}; do
+		name=${name_lines[$id]}
+		gname=${gname_lines[$id]}
+		url=${url_lines[$id]}
+		path=${path_lines[$id]}
+		torrents_list="$TEMPORARY_DIR/${name}.torrents-list"
+		
 		log_inprogress "Проверка $gname"
+		log_stages 1 "Загрузка списка торрент-файлов"
+		wget -q -O- $url | grep -o "/download.php/.*${name}.*\.torrent" \
+				| grep -ir "S[0-9]\{1,\}E[0-9]\{1,\}" | sort -u > $torrents_list
+		
 		log_inprogress_ok "Проверка $gname"
+		id=$(($id+1))
 	done
 }
 
