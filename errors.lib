@@ -15,4 +15,8 @@ fatal_error(){
 	exit 1
 }
 
+log_it(){
+	some_error 'INFO' "$1" $C_WHITE
+}
+
 fi

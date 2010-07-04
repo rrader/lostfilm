@@ -5,6 +5,7 @@
 #настройки
 DATA_DIR="/home/roma/other/lostfilm"
 CONFIG_FILE=$DATA_DIR/lostfilm_config
+DBFile=$DATA_DIR/serials.db
 TORRENTS_DIR="/home/roma/torrents/"
 DOWNLOAD_DIR="/home/roma/Downloads"
 LOG_FILE=$DATA_DIR/lostfilm.log
@@ -21,6 +22,7 @@ LOG=1
 #инициализация
 ACTION="DEFAULT"
 SERNUM=-1
+FORCE=0
 #конец инициализации
 
 read_config(){
@@ -47,6 +49,9 @@ read_params(){
 			-s|--serial)
 				shift
 				SERNUM=$(($1-1))
+				;;
+			--force)
+				FORCE=1
 				;;
 			*)
 				fatal_error "Неизвестный параметр $1"

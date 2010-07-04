@@ -2,5 +2,16 @@
 if [ ! "$L_DB_LIB" == "LOADED" ]; then
 L_DB_LIB="LOADED"
 
+. errors.lib
+
+init_db(){
+	log_it "Init DB $DBFile"
+	if [ -e "$DBFile" ] && [ $FORCE -eq 1 ] || [ ! -e "$DBFile" ]; then
+		[ -f "$DBFile" ] && rm -f $DBFile
+		sqlite3 $DBFile "create table serials (codename TEXT, link TEXT);"
+	else
+		fatal_error "База данных уже существует! Используйте --force для обхода."
+	fi
+}
 
 fi
