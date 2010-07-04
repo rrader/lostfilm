@@ -34,4 +34,11 @@ add_to_base(){
 	[ $? -eq 0 ] && sqlite3 $DBFile "insert into serials values('$1','$2');"
 }
 
+purge_base(){
+	[ "$1" == "YES, I KNOW WHAT IT IS" ] || return 1
+	log_it "Purge DB $DBFile"
+	sqlite3 $DBFile "drop table serials;"
+	return 0
+}
+
 fi

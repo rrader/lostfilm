@@ -120,6 +120,13 @@ case $ACTION in
 		torrent_exists $PURL
 		log_it "$PURL в базе данных 1/0: $?"
 		;;
+	"PURGE")
+		[ $FORCE -eq 1 ] || fatal_error "Для подтверждения очистки добавте параметр --force"
+		if [ $FORCE -eq 1 ]; then
+			purge_base "YES, I KNOW WHAT IT IS"
+			init_db
+		fi
+		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
 		;;
