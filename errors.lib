@@ -7,12 +7,16 @@ L_ERRORS_LIB="LOADED"
 some_error(){
 	COLOR=$3
 	echo -e "${COLOR}[$1]${C_WHITE} $2${C_NONE}"
-	#echo "[$1] $2"
+	echo "[$1] $2" >> $LOG_FILE
 }
 
 fatal_error(){
 	some_error 'FATAL' "$1" $C_RED
 	exit 1
+}
+
+log_it(){
+	some_error 'INFO' "$1" $C_WHITE
 }
 
 fi

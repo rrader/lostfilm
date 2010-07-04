@@ -22,6 +22,16 @@ ACTION="DEFAULT"
 #конец инициализации
 
 read_config(){
+	IFS=$'\n'
+	index=0
+
+	while read line ; do
+		name_lines[$index]="`echo "$line" | awk '-F|' '{ print $1 }'`"
+		gname_lines[$index]="`echo "$line" | awk '-F|' '{ print $2 }'`"
+		url_lines[$index]="`echo "$line" | awk '-F|' '{ print $3 }'`"
+		path_lines[$index]="`echo "$line" | awk '-F|' '{ print $4 }'`"
+		index=$(($index+1))
+	done < $DATA_DIR/lostfilm_config
 	return 0
 }
 
