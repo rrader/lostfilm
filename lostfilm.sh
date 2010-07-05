@@ -26,6 +26,7 @@ ACTION="DEFAULT"
 SERNUM=-1
 FAKE=0
 FORCE=0
+BASEDIRECTORY="`dirname $0`"
 #конец инициализации
 
 read_config(){
@@ -92,15 +93,15 @@ echo_config_info(){
 }
 
 # библиотека для работы с лостфильмом
-. lostfilm.lib
+. $BASEDIRECTORY/lostfilm.lib
 # библиотека для работы с базой данных
-. db.lib
+. $BASEDIRECTORY/db.lib
 # библиотека для обработки ошибок
-. errors.lib
+. $BASEDIRECTORY/errors.lib
 # библиотека для цветного вывода на терминал
-. colors.lib
+. $BASEDIRECTORY/colors.lib
 # библиотека для работы с торрент-клиентом
-btclient.lib
+. $BASEDIRECTORY/btclient.lib
 
 read_params "$@"
 read_config

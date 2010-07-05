@@ -2,7 +2,7 @@
 if [ ! "$L_ERRORS_LIB" == "LOADED" ]; then
 L_ERRORS_LIB="LOADED"
 
-. colors.lib
+. $BASEDIRECTORY/colors.lib
 
 # логирование
 # $1 - текст в скобках [] (OK, ERROR, NEW, etc.)
@@ -10,8 +10,8 @@ L_ERRORS_LIB="LOADED"
 # $3 - цвет скобок []
 some_error(){
 	COLOR=$3
-	echo -e "${COLOR}[$1]${C_white} $2${C_NONE}"
-	echo "[$1] $2" >> $LOG_FILE
+	[ x$4 == "x2" ] || echo -e "${COLOR}[$1]${C_white} $2${C_NONE}"
+	[ x$4 == "x1" ] || echo "[$1] $2" >> $LOG_FILE
 }
 
 # фатальная ошибка - сообщение с последующим выходом из программы

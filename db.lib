@@ -2,7 +2,7 @@
 if [ ! "$L_DB_LIB" == "LOADED" ]; then
 L_DB_LIB="LOADED"
 
-. errors.lib
+. $BASEDIRECTORY/errors.lib
 
 [ -f $DBFile ] || db_error "Файл базы данных не найден"
 

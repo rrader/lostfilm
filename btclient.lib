@@ -3,9 +3,12 @@
 if [ ! "$L_BTCLIENT_LIB" == "LOADED" ]; then
 L_BTCLIENT_LIB="LOADED"
 
+. $BASEDIRECTORY/bt/$TORRENT_CLIENT.btclient
+
 # Добавить торрент-файл на закачку
 # $1 - путь к торрент-файлу
 bt_addtorrent(){
+	bt_directly_add_torrent "$1" >/dev/null 2>&1
 	log_it "Файл $1 поставлен на закачку"
 }
 
