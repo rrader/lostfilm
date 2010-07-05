@@ -12,4 +12,13 @@ bt_addtorrent(){
 	log_it "Файл $1 поставлен на закачку"
 }
 
+bt_getcompletelist(){
+	bt_directly_get_complete_list
+}
+
+bt_client_name(){
+	name=bt_directly_client_name
+	[ -z $name ] && echo "unknown bittorrent-client"
+}
+
 fi

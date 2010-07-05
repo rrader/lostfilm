@@ -1,12 +1,21 @@
 # Функции для работы с торрент-клиентом transmission
 
-# Поставить торрент на закачку. Вернуть 0 если ОК, 1 если ошибка.
+# Поставить торрент на закачку. Вернуть 0 если ОК, другое число если ошибка.
 # $1 - локальный путь к торрент-файлу
 bt_directly_add_torrent(){
-	if [ -z "`ps aux | grep [t]ransmission-daemon`" ]; then
+	if [ -z "`ps aux | grep [t]ransmission`" ]; then
 		cp -f "$1" "$TORRENTS_DIR/`basename $1`"
+		return $?
 	else
 		transmission-remote -a "$1" >/dev/null 2>&1
 	fi
 	return 0
+}
+
+bt_directly_get_complete_list(){
+	transmission-remote -l | grep Done | grep -o "[^ ]*$" | sed "1d"
+}
+
+bt_directly_client_name(){
+	echo "Transmission"
 }

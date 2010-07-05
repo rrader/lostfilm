@@ -48,4 +48,19 @@ lostfilm_check(){
 	done
 }
 
+check_complete(){
+	log_it "Начало проверки торрент-клиента на завершенные загрузки"
+	log_stages 1 "Получение списка завершенных загрузок от `bt_client_name`"
+	bt_getcompletelist > $TEMPORARY_DIR/complete_list
+	log_stages 1 "Поиск завершенных серий сериалов"
+	
+	for name in ${name_lines[@]}; do
+		<$TEMPORARY_DIR/complete_list grep -i "Lostfilm.TV" | grep -i "$name" > $TEMPORARY_DIR/${name}.complete
+		
+		rm -f "$TEMPORARY_DIR/${name}.complete"
+	done
+	
+	rm $TEMPORARY_DIR/complete_list
+}
+
 fi

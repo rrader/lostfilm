@@ -27,6 +27,8 @@ SERNUM=-1
 FAKE=0
 FORCE=0
 BASEDIRECTORY="`dirname $0`"
+
+mkdir -p "$TEMPORARY_DIR"
 #конец инициализации
 
 read_config(){
@@ -137,6 +139,8 @@ case $ACTION in
 			rm -f ${TORRENTS_DIR}/*.torrent
 		fi
 		;;
+	"CHECK COMPLETE")
+		check_complete
 	*)
 		fatal_error "Неизвестное действие $ACTION"
 		;;
