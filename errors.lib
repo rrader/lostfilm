@@ -10,7 +10,7 @@ L_ERRORS_LIB="LOADED"
 # $3 - цвет скобок []
 some_error(){
 	COLOR=$3
-	echo -e "${COLOR}[$1]${C_WHITE} $2${C_NONE}"
+	echo -e "${COLOR}[$1]${C_white} $2${C_NONE}"
 	echo "[$1] $2" >> $LOG_FILE
 }
 
@@ -53,7 +53,7 @@ log_inprogress_complete(){
 log_inprogress_ok(){
 	[ -z $2 ] && R='OK'
 	[ -z $2 ] || R=$2
-	log_inprogress_complete "$1" '##' "$R" $C_WHITE $C_GREEN
+	log_inprogress_complete "$1" '##' "$R" $C_white $C_GREEN
 }
 
 # логирование со статусом "завершено с ошибкой"
@@ -61,14 +61,14 @@ log_inprogress_ok(){
 log_inprogress_error(){
 	[ -z $2 ] && R='ERROR'
 	[ -z $2 ] || R=$2
-	log_inprogress_complete "$1" '!!' "$R" $C_WHITE $C_RED
+	log_inprogress_complete "$1" '!!' "$R" $C_white $C_RED
 }
 
 # логирование со статусом "завершено с комментарием"
 # $1 - текст сообщения
 # $2 - текст в скобках [] конца строки - OK, ERROR, NEW, etc.
 log_inprogress_info(){
-	log_inprogress_complete "$1" '##' "$2" $C_WHITE $C_CYAN
+	log_inprogress_complete "$1" '##' "$2" $C_white $C_CYAN
 }
 
 # Лог-список.
@@ -79,7 +79,7 @@ log_stages(){
 	for i in `seq 1 $1`; do
 		level="${level}   "
 	done
-	echo -e "${level}${C_YELLOW}=> ${C_WHITE}$2${C_NONE}"
+	echo -e "${level}${C_YELLOW}=> ${C_white}$2${C_NONE}"
 	echo "${level}=> $2" >> $LOG_FILE
 }
 
