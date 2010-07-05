@@ -54,10 +54,17 @@ check_complete(){
 	bt_getcompletelist > $TEMPORARY_DIR/complete_list
 	log_stages 1 "Поиск завершенных серий сериалов"
 	
+	NUM=0
 	for name in ${name_lines[@]}; do
 		<$TEMPORARY_DIR/complete_list grep -i "Lostfilm.TV" | grep -i "$name" > $TEMPORARY_DIR/${name}.complete
-		
+		while read str; do
+			fpath="`bt_get_file_path "$str"`"
+			bt_removetorrent "$str"
+			path=${path_lines[$NUM]}
+			mv "$fpath" "$path/"
+		done < $TEMPORARY_DIR/${name}.complete
 		rm -f "$TEMPORARY_DIR/${name}.complete"
+		NUM=$(($NUM+1))
 	done
 	
 	rm $TEMPORARY_DIR/complete_list

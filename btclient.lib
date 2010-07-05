@@ -12,13 +12,25 @@ bt_addtorrent(){
 	log_it "Файл $1 поставлен на закачку"
 }
 
+bt_removetorrent(){
+	bt_directly_removetorrent
+}
+
+# Получить список завершенных загрузок
 bt_getcompletelist(){
 	bt_directly_get_complete_list
 }
 
+# Просто название торрент-клиента
 bt_client_name(){
 	name=bt_directly_client_name
 	[ -z $name ] && echo "unknown bittorrent-client"
+}
+
+# Получить полный путь к загружаемому файлу
+# $1 - название файла
+bt_get_file_path(){
+	bt_directly_get_file_path "$1"
 }
 
 fi

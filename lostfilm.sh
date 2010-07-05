@@ -141,6 +141,7 @@ case $ACTION in
 		;;
 	"CHECK COMPLETE")
 		check_complete
+		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
 		;;

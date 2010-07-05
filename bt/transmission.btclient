@@ -12,10 +12,24 @@ bt_directly_add_torrent(){
 	return 0
 }
 
+# Получить список завершенных загрузок
 bt_directly_get_complete_list(){
 	transmission-remote -l | grep Done | grep -o "[^ ]*$" | sed "1d"
 }
 
+# Получить полный путь к загружаемому файлу
+# $1 - название файла
+bt_directly_get_file_path(){
+	ID="`transmission-remote -l | grep \"$1\" | awk '{ print $1 }'`"
+	echo "`transmission-remote -t $ID --info | grep \"Location:\" |sed -r \"s/(.*?)Location: (.*)$.*/\2/g\"`/$1"
+}
+
+bt_directly_removetorrent(){
+	ID="`transmission-remote -l | grep \"$1\" | awk '{ print $1 }'`"
+	transmission-remote -t $ID --remove
+}
+
+# Просто название торрент-клиента
 bt_directly_client_name(){
 	echo "Transmission"
 }
