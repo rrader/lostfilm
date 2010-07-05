@@ -12,6 +12,7 @@ TEMPORARY_DIR="/tmp/lostfilm"
 LOG_FILE=$DATA_DIR/lostfilm.log
 LOSTFILM_USERID="781443"
 LOSTFILM_PASSWD="257cf05a8f0ebef9a07cdef0272190f8"
+TORRENT_CLIENT="transmission"
 
 #настройки оповещений
 XMPP_REPORT=1
@@ -98,6 +99,8 @@ echo_config_info(){
 . errors.lib
 # библиотека для цветного вывода на терминал
 . colors.lib
+# библиотека для работы с торрент-клиентом
+btclient.lib
 
 read_params "$@"
 read_config
