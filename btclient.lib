@@ -13,7 +13,7 @@ bt_addtorrent(){
 }
 
 bt_removetorrent(){
-	bt_directly_removetorrent
+	bt_directly_removetorrent "$1"
 }
 
 # Получить список завершенных загрузок
@@ -23,8 +23,8 @@ bt_getcompletelist(){
 
 # Просто название торрент-клиента
 bt_client_name(){
-	name=bt_directly_client_name
-	[ -z $name ] && echo "unknown bittorrent-client"
+	name="`bt_directly_client_name`"
+	[ -z "$name" ] && echo "unknown bittorrent-client" || echo "$name"
 }
 
 # Получить полный путь к загружаемому файлу

@@ -26,10 +26,11 @@ bt_directly_get_file_path(){
 
 bt_directly_removetorrent(){
 	ID="`transmission-remote -l | grep \"$1\" | awk '{ print $1 }'`"
-	transmission-remote -t $ID --remove
+	transmission-remote -t $ID --remove >/dev/null 2>&1
 }
 
 # Просто название торрент-клиента
 bt_directly_client_name(){
 	echo "Transmission"
 }
+

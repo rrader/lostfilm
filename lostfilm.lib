@@ -61,7 +61,10 @@ check_complete(){
 			fpath="`bt_get_file_path "$str"`"
 			bt_removetorrent "$str"
 			path=${path_lines[$NUM]}
-			mv "$fpath" "$path/"
+			log_stages 2 "`crop_str $str 50` завершен"
+			log_stages 3 "Из списка загрузок удален"
+			log_stages 3 "Перемещение из `dirname "$fpath"` в $path"
+			mv "$fpath" "$path/" 
 		done < $TEMPORARY_DIR/${name}.complete
 		rm -f "$TEMPORARY_DIR/${name}.complete"
 		NUM=$(($NUM+1))
