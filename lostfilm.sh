@@ -137,6 +137,12 @@ case $ACTION in
 			rm -f ${TORRENTS_DIR}/*.torrent
 		fi
 		;;
+	"CONFIG ADD")
+		;;
+	"CONFIG REMOVE")
+		;;
+	"CONFIG LIST")
+		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
 		;;
