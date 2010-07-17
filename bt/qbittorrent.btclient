@@ -25,7 +25,7 @@ bt_directly_get_file_path(){
 
 # Удаление торрента из списка закачек
 bt_directly_removetorrent(){
-	# не реализовано...	
+	echo "not implemented" > /dev/null
 }
 
 # Просто название торрент-клиента
