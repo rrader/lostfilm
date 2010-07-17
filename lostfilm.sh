@@ -13,7 +13,7 @@ TEMPORARY_DIR="/tmp/lostfilm"
 LOG_FILE=$DATA_DIR/lostfilm.log
 LOSTFILM_USERID="781443"
 LOSTFILM_PASSWD="257cf05a8f0ebef9a07cdef0272190f8"
-TORRENT_CLIENT="transmission"
+TORRENT_CLIENT="qbittorrent"
 
 #настройки оповещений
 XMPP_REPORT=1
