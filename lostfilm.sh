@@ -8,6 +8,7 @@ CONFIG_FILE=$DATA_DIR/lostfilm_config
 DBFile=$DATA_DIR/serials.db
 TORRENTS_DIR="/home/roma/torrents"
 DOWNLOAD_DIR="/home/roma/Downloads"
+COMPLETE_DIR="/Data/torrent/complete"
 TEMPORARY_DIR="/tmp/lostfilm"
 LOG_FILE=$DATA_DIR/lostfilm.log
 LOSTFILM_USERID="781443"
