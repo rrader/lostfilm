@@ -1,0 +1,35 @@
+# Функции для работы с торрент-клиентом qBittorrent
+
+# Поставить торрент на закачку. Вернуть 0 если ОК, другое число если ошибка.
+# $1 - локальный путь к торрент-файлу
+bt_directly_add_torrent(){
+	if [ -z "`ps aux | grep [q]bittorrent`" ]; then
+		cp -f "$1" "$TORRENTS_DIR/`basename $1`"
+		return $?
+	else
+		qbittorrent "$1" >/dev/null 2>&1
+	fi
+	return 0
+}
+
+# Получить список завершенных загрузок
+bt_directly_get_complete_list(){
+	for x in `find "$COMPLETE_DIR" -type f`; do basename "$x"; done;
+}
+
+# Получить полный путь к загружаемому файлу
+# $1 - название файла
+bt_directly_get_file_path(){
+	find "$COMPLETE_DIR" -type f | grep "$1"
+}
+
+# Удаление торрента из списка закачек
+bt_directly_removetorrent(){
+	# не реализовано...	
+}
+
+# Просто название торрент-клиента
+bt_directly_client_name(){
+	echo "qBittorrent"
+}
+
