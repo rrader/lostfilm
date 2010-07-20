@@ -20,6 +20,18 @@ echo_config_info(){
 	fi
 }
 
+echo_config_info_line(){
+	i=0
+	if [ $SERNUM -eq -1 ]; then
+		for gname in ${gname_lines[@]}; do
+			echo "${name_lines[$i]}|${gname}|`basename ${url_lines[$i]}`|${path_lines[$i]}"
+			i=$(($i+1))
+		done
+	else
+		echo_serial_info ${gname_lines[$SERNUM]} ${name_lines[$SERNUM]} ${url_lines[$SERNUM]} ${path_lines[$SERNUM]}
+	fi
+}
+
 read_config(){
 	IFS=$'\n'
 	index=0

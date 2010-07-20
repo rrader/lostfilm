@@ -117,6 +117,7 @@ case $ACTION in
 	"CONFIG REMOVE")
 		;;
 	"CONFIG LIST")
+		echo_config_info_line
 		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
