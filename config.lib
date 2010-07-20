@@ -24,11 +24,11 @@ echo_config_info_line(){
 	i=0
 	if [ $SERNUM -eq -1 ]; then
 		for gname in ${gname_lines[@]}; do
-			echo "${name_lines[$i]}|${gname}|`basename ${url_lines[$i]}`|${path_lines[$i]}"
+			echo "$(($i+1)): ${name_lines[$i]}|${gname}|`basename ${url_lines[$i]}`|${path_lines[$i]}"
 			i=$(($i+1))
 		done
 	else
-		echo_serial_info ${gname_lines[$SERNUM]} ${name_lines[$SERNUM]} ${url_lines[$SERNUM]} ${path_lines[$SERNUM]}
+		echo "$(($SERNUM+1)): ${name_lines[$SERNUM]}|${gname_lines[$SERNUM]}|`basename ${url_lines[$SERNUM]}`|${path_lines[$SERNUM]}"
 	fi
 }
 
@@ -64,4 +64,12 @@ config_read_serial_info(){
 	read info_furl
 	log_stages 1 "Путь к папке для хранения завершенных серий сериалов:"
 	read info_fpath
+}
+
+# удалить сериал
+# $1 - номер строки
+config_remove_serial(){
+	<"$CONFIG_FILE" sed "$(($1+1))d" > "$TEMPORARY_DIR/tmpconfig"
+	rm "$CONFIG_FILE"
+	mv "$TEMPORARY_DIR/tmpconfig" "$CONFIG_FILE"
 }

@@ -108,13 +108,18 @@ case $ACTION in
 		;;
 	"CONFIG ADD")
 		config_read_serial_info
-		log_stages 1 "Подтвердите добавление строки в конфиг-файл [y]"
 		echo "$info_fcode|$info_fname|$info_furl|$info_fpath/%GNAME%"
+		log_stages 1 "Подтвердите добавление строки в конфиг-файл [y]"
 		read x
 		[ "x$x" == "xy" ] && config_add_serial "$info_fname" "$info_fcode" "$info_furl" "$info_fpath"\
 		&& log_it "Сериал \"$info_fname\" добавлен" || fatal_error "Добавление сериала \"$info_fname\" прервано";
 		;;
 	"CONFIG REMOVE")
+		[ $SERNUM -eq -1 ] && fatal_error "Укажите номер сериала через опцию -s. Например: lostfilm.sh -s 2 -a \"CONFIG REMOVE\""
+		echo_config_info
+		log_stages 1 "Подтвердите удаление сериала [y]"
+		read x
+		[ "x$x" == "xy" ] && config_remove_serial $SERNUM
 		;;
 	"CONFIG LIST")
 		echo_config_info_line
