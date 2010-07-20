@@ -1,0 +1,24 @@
+# функции для работы с оповещениями
+
+NOTIFY_SESSION_FILE="$TEMPORARY_DIR/notify.session"
+
+# инициализация сессии
+notify_start_session(){
+	rm -f "$NOTIFY_SESSION_FILE"
+	touch "$NOTIFY_SESSION_FILE"
+}
+
+# создание нотификации
+# $1 - Маркер действия
+# $2 - Текст
+new_notify(){
+	echo "[$1] $2" >> $NOTIFY_SESSION_FILE
+}
+
+send_all_notifies(){
+	[ -z "`cat $NOTIFY_SESSION_FILE`" ] && return;
+	[ $XMPP_REPORT  -eq 1 ] && <"$NOTIFY_SESSION_FILE" sendxmpp "$REPORT_JID"
+	[ $JUICK_REPORT -eq 1 ] && <"$NOTIFY_SESSION_FILE" sendjuick
+}
+
+notify_start_session
