@@ -28,7 +28,7 @@ lostfilm_check(){
 		while read current; do
 			torrent_exists $current
 			if [ $? -eq 0 ]; then
-				some_error 'NEW' "Новая серия: $current" $C_CYAN
+				some_error 'NEW' "Новая серия: $gname, $EPISOD" $C_CYAN
 				UNIQUENUM=`echo $current | grep -o "[0-9]*" | sed '1 ! d'`
 				mkdir -p $TEMPORARY_DIR/downloads
 				cd $TEMPORARY_DIR/downloads
@@ -65,6 +65,7 @@ check_complete(){
 			log_stages 3 "Из списка загрузок удален"
 			log_stages 3 "Перемещение из `dirname "$fpath"` в $path"
 			mv "$fpath" "$path/" 
+			new_notify 'COMPLETE' "${gname_lines[$NUM]}, `basename $fpath | grep -iro "S[0-9]\{1,\}E[0-9]\{1,\}"`"
 		done < $TEMPORARY_DIR/${name}.complete
 		rm -f "$TEMPORARY_DIR/${name}.complete"
 		NUM=$(($NUM+1))

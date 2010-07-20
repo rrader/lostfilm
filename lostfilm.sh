@@ -91,6 +91,8 @@ crop_str(){
 . $BASEDIRECTORY/btclient.lib
 # библиотека для работы с конфиг-файлом
 . $BASEDIRECTORY/config.lib
+# библиотека для работы с оповещениями
+. $BASEDIRECTORY/notify.lib
 
 read_params "$@"
 read_config
@@ -151,3 +153,5 @@ case $ACTION in
 		fatal_error "Неизвестное действие $ACTION"
 		;;
 esac
+
+send_all_notifies

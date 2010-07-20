@@ -10,6 +10,7 @@ L_BTCLIENT_LIB="LOADED"
 bt_addtorrent(){
 	bt_directly_add_torrent "$1" >/dev/null 2>&1
 	log_it "Файл $1 поставлен на закачку"
+	new_notify 'NEW' "$gname, `basename $current | grep -iro "S[0-9]\{1,\}E[0-9]\{1,\}"`"
 }
 
 bt_removetorrent(){
