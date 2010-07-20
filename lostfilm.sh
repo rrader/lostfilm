@@ -117,6 +117,7 @@ case $ACTION in
 		;;
 	"CHECK COMPLETE")
 		check_complete
+		;;
 	"CONFIG ADD")
 		config_read_serial_info
 		echo "$info_fcode|$info_fname|$info_furl|$info_fpath/%GNAME%"
