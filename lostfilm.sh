@@ -32,20 +32,6 @@ BASEDIRECTORY="`dirname $0`"
 mkdir -p "$TEMPORARY_DIR"
 #конец инициализации
 
-read_config(){
-	IFS=$'\n'
-	index=0
-
-	while read line ; do
-		name_lines[$index]="`echo "$line" | awk '-F|' '{ print $1 }'`"
-		gname_lines[$index]="`echo "$line" | awk '-F|' '{ print $2 }'`"
-		url_lines[$index]="`echo "$line" | awk '-F|' '{ print $3 }'`"
-		path_lines[$index]="`echo "$line" | awk '-F|' '{ print $4 }' | sed "s/%GNAME%/${gname_lines[$index]}/g"`"
-		index=$(($index+1))
-	done < $CONFIG_FILE
-	return 0
-}
-
 read_params(){
 	while [ -n "$1" ]; do
 		case $1 in
@@ -75,26 +61,6 @@ read_params(){
 	done
 }
 
-echo_serial_info(){
-	echo -e "${C_cyan}Название:    ${C_YELLOW}$1${C_NONE}"
-	echo -e "${C_cyan}Кодовое имя: ${C_YELLOW}$2${C_NONE}"
-	echo -e "${C_cyan}URL:         ${C_YELLOW}$3${C_NONE}"
-	echo -e "${C_cyan}Папка:       ${C_YELLOW}$4${C_NONE}"
-}
-
-echo_config_info(){
-	i=0
-	if [ $SERNUM -eq -1 ]; then
-		for gname in ${gname_lines[@]}; do
-			echo_serial_info ${gname} ${name_lines[$i]} ${url_lines[$i]} ${path_lines[$i]}
-			echo -e "${C_CYAN}---------------------------------------------${C_NONE}"
-			i=$(($i+1))
-		done
-	else
-		echo_serial_info ${gname_lines[$SERNUM]} ${name_lines[$SERNUM]} ${url_lines[$SERNUM]} ${path_lines[$SERNUM]}
-	fi
-}
-
 # Обрезает строку до нужной длины
 # $1 - строка
 # $2 - требуемая длина
@@ -112,6 +78,8 @@ crop_str(){
 . $BASEDIRECTORY/colors.lib
 # библиотека для работы с торрент-клиентом
 . $BASEDIRECTORY/btclient.lib
+# библиотека для работы с конфиг-файлом
+. $BASEDIRECTORY/config.lib
 
 read_params "$@"
 read_config
@@ -149,6 +117,23 @@ case $ACTION in
 		;;
 	"CHECK COMPLETE")
 		check_complete
+	"CONFIG ADD")
+		config_read_serial_info
+		echo "$info_fcode|$info_fname|$info_furl|$info_fpath/%GNAME%"
+		log_stages 1 "Подтвердите добавление строки в конфиг-файл [y]"
+		read x
+		[ "x$x" == "xy" ] && config_add_serial "$info_fname" "$info_fcode" "$info_furl" "$info_fpath"\
+		&& log_it "Сериал \"$info_fname\" добавлен" || fatal_error "Добавление сериала \"$info_fname\" прервано";
+		;;
+	"CONFIG REMOVE")
+		[ $SERNUM -eq -1 ] && fatal_error "Укажите номер сериала через опцию -s. Например: lostfilm.sh -s 2 -a \"CONFIG REMOVE\""
+		echo_config_info
+		log_stages 1 "Подтвердите удаление сериала [y]"
+		read x
+		[ "x$x" == "xy" ] && config_remove_serial $SERNUM
+		;;
+	"CONFIG LIST")
+		echo_config_info_line
 		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
