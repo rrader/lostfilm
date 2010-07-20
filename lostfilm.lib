@@ -64,6 +64,7 @@ check_complete(){
 			log_stages 2 "`crop_str $str 50` завершен"
 			log_stages 3 "Из списка загрузок удален"
 			log_stages 3 "Перемещение из `dirname "$fpath"` в $path"
+			mkdir -p "$path/" 
 			mv "$fpath" "$path/" 
 			new_notify 'COMPLETE' "${gname_lines[$NUM]}, `basename $fpath | grep -iro "S[0-9]\{1,\}E[0-9]\{1,\}"`"
 		done < $TEMPORARY_DIR/${name}.complete
