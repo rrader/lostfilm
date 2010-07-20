@@ -107,6 +107,12 @@ case $ACTION in
 		fi
 		;;
 	"CONFIG ADD")
+		config_read_serial_info
+		log_stages 1 "Подтвердите добавление строки в конфиг-файл [y]"
+		echo "$info_fcode|$info_fname|$info_furl|$info_fpath/%GNAME%"
+		read x
+		[ "x$x" == "xy" ] && config_add_serial "$info_fname" "$info_fcode" "$info_furl" "$info_fpath"\
+		&& log_it "Сериал \"$info_fname\" добавлен" || fatal_error "Добавление сериала \"$info_fname\" прервано";
 		;;
 	"CONFIG REMOVE")
 		;;
