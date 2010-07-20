@@ -1,0 +1,16 @@
+#настройки
+LOSTFILM_USERID = "" # идентификатор пользователя (из куков)
+LOSTFILM_PASSWD = "" # хеш пароля пользователя (тоже из куков)
+DATA_DIR        = "$HOME/.lostfilm"        # папка с данными и настройками скрипта. например, "/home/username/.lostfilm/"
+TORRENTS_DIR    = "$HOME/torrents"         # папка, на которую настроено слежение за новыми торрентами торрент-клиента
+DOWNLOAD_DIR    = "/home/roma/Downloads"   # папка для загрузки файлов (используется для некоторых торрент-клиентов)
+COMPLETE_DIR    = "$DOWNLOAD_DIR/complete" # папка с завершенными загрузками (используется для некоторых торрент-клиентов)
+TEMPORARY_DIR   = "/tmp/lostfilm"          # временная папка
+TORRENT_CLIENT  = "qbittorrent"            # ваш торрент-клиент
+
+#настройки оповещений (1 - включено, 0 - выключено)
+XMPP_REPORT=0
+JUICK_REPORT=0
+LOG=1
+REPORT_JID="" # Jabber ID для оповещения
+#конец настроек

@@ -2,25 +2,12 @@
 # скрипт для автоматической загрузки торрент-файлов новых серий разных сериалов с лостфильма
 # обновленная версия
 
-#настройки
-DATA_DIR="/home/roma/other/lostfilm"
+. config.sh
+
 CONFIG_FILE=$DATA_DIR/lostfilm_config
 DBFile=$DATA_DIR/serials.db
-TORRENTS_DIR="/home/roma/torrents"
-DOWNLOAD_DIR="/home/roma/Downloads"
-COMPLETE_DIR="/Data/torrent/complete"
-TEMPORARY_DIR="/tmp/lostfilm"
-LOG_FILE=$DATA_DIR/lostfilm.log
-LOSTFILM_USERID="781443"
-LOSTFILM_PASSWD="257cf05a8f0ebef9a07cdef0272190f8"
-TORRENT_CLIENT="qbittorrent"
-
-#настройки оповещений
-XMPP_REPORT=1
-JUICK_REPORT=1
-REPORT_JID="antigluk@gmail.com"
-LOG=1
-#конец настроек
+LOG_FILE_PATH=$DATA_DIR/lostfilm.log
+LOG_FILE="$LOG_FILE_PATH"
 
 #инициализация
 ACTION="DEFAULT"
@@ -52,6 +39,30 @@ read_params(){
 				;;
 			--force)
 				FORCE=1
+				;;
+			--xmpp)
+				XMPP_REPORT=1
+				;;
+			--no-xmpp)
+				XMPP_REPORT=0
+				;;
+			--xmpp-jid)
+				shift
+				REPORT_JID=$1
+				;;
+			--juick)
+				JUICK_REPORT=1
+				;;
+			--no-juick)
+				JUICK_REPORT=0
+				;;
+			--log)
+				LOG=1
+				LOG_FILE="$LOG_FILE_PATH"
+				;;
+			--no-log)
+				LOG=0
+				LOG_FILE="/dev/null"
 				;;
 			*)
 				fatal_error "Неизвестный параметр $1"
