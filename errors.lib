@@ -71,15 +71,17 @@ log_inprogress_info(){
 	log_inprogress_complete "$1" '##' "$2" $C_white $C_CYAN
 }
 
-# Лог-список.
+# Лог-список с выбором маркера
 # $1 - номер уровня вложенности
 # $2 - текст сообщения
+# $3 - маркер
 log_stages(){
+	[ -z "$3" ] && marker="=>" || marker="$3"
 	level=""
 	for i in `seq 1 $1`; do
 		level="${level}   "
 	done
-	echo -e "${level}${C_YELLOW}=> ${C_white}$2${C_NONE}"
+	echo -e "${level}${C_YELLOW}$marker ${C_white}$2${C_NONE}"
 	echo "${level}=> $2" >> $LOG_FILE
 }
 
