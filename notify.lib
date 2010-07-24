@@ -1,5 +1,8 @@
 # функции для работы с оповещениями
 
+if [ ! "$L_NOTIFY_LIB" == "LOADED" ]; then
+L_NOTIFY_LIB="LOADED"
+
 NOTIFY_SESSION_FILE="$TEMPORARY_DIR/notify.session"
 
 # инициализация сессии
@@ -22,3 +25,5 @@ send_all_notifies(){
 }
 
 notify_start_session
+
+fi

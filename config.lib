@@ -1,5 +1,10 @@
 # функции для работы с конфиг-файлом
 
+if [ ! "$L_CONFIG_LIB" == "LOADED" ]; then
+L_CONFIG_LIB="LOADED"
+
+. $BASEDIRECTORY/db.lib
+
 echo_serial_info(){
 	while [ -n "$1" ]; do
 		case $1 in
@@ -22,11 +27,11 @@ echo_serial_info(){
 				echo -e "${C_cyan}Папка:       ${C_YELLOW}$DPATH${C_NONE}"
 				;;
 			--db-count)
-				LCOUNT=`sqlite3 $DBFile "select link from serials where codename='$CNAME';" | wc -l`
+				LCOUNT=`db_serial_episod_count $CNAME`
 				echo -e "${C_cyan}Файлов:      ${C_YELLOW}$LCOUNT${C_NONE}"
 				;;
 			--file-list)
-				sqlite3 $DBFile "select link from serials where codename='$CNAME';"
+				db_serial_episod_link_list
 				;;
 		esac
 		shift
@@ -42,7 +47,7 @@ echo_config_info(){
 			i=$(($i+1))
 		done
 	else
-		echo_serial_info ${gname_lines[$SERNUM]} ${name_lines[$SERNUM]} ${url_lines[$SERNUM]} ${path_lines[$SERNUM]} $@
+		echo_serial_info -g ${gname_lines[$SERNUM]} -n ${name_lines[$SERNUM]} -u ${url_lines[$SERNUM]} -p ${path_lines[$SERNUM]} $@
 	fi
 }
 
@@ -99,3 +104,5 @@ config_remove_serial(){
 	rm "$CONFIG_FILE"
 	mv "$TEMPORARY_DIR/tmpconfig" "$CONFIG_FILE"
 }
+
+fi

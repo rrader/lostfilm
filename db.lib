@@ -41,5 +41,14 @@ purge_base(){
 	return 0
 }
 
+# Количество серий в базе данных
+# $1 - кодовое имя
+db_serial_episod_count(){
+	sqlite3 $DBFile "select link from serials where codename='$1';" | wc -l
+}
+
+db_serial_episod_link_list(){
+	sqlite3 $DBFile "select link from serials where codename='$CNAME';"
+}
 
 fi
