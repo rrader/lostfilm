@@ -103,7 +103,13 @@ case $ACTION in
 		echo "PONG"
 		;;
 	"INFO")
-		echo_config_info
+		echo_config_info --config-info
+		;;
+	"INFO DB")
+		echo_config_info --db-count
+		;;
+	"INFO DB LIST")
+		echo_config_info --file-list
 		;;
 	"INITDB")
 		init_db

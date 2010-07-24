@@ -1,22 +1,48 @@
 # функции для работы с конфиг-файлом
 
 echo_serial_info(){
-	echo -e "${C_cyan}Название:    ${C_YELLOW}$1${C_NONE}"
-	echo -e "${C_cyan}Кодовое имя: ${C_YELLOW}$2${C_NONE}"
-	echo -e "${C_cyan}URL:         ${C_YELLOW}$3${C_NONE}"
-	echo -e "${C_cyan}Папка:       ${C_YELLOW}$4${C_NONE}"
+	while [ -n "$1" ]; do
+		case $1 in
+			-g) shift;
+				GNAME=$1
+				;;
+			-n) shift;
+				CNAME=$1
+				;;
+			-p) shift;
+				DPATH=$1
+				;;
+			-u) shift;
+				TFURL=$1
+				;;
+			--config-info)
+				echo -e "${C_cyan}Название:    ${C_YELLOW}$GNAME${C_NONE}"
+				echo -e "${C_cyan}Кодовое имя: ${C_YELLOW}$CNAME${C_NONE}"
+				echo -e "${C_cyan}URL:         ${C_YELLOW}$TFURL${C_NONE}"
+				echo -e "${C_cyan}Папка:       ${C_YELLOW}$DPATH${C_NONE}"
+				;;
+			--db-count)
+				LCOUNT=`sqlite3 $DBFile "select link from serials where codename='$CNAME';" | wc -l`
+				echo -e "${C_cyan}Файлов:      ${C_YELLOW}$LCOUNT${C_NONE}"
+				;;
+			--file-list)
+				sqlite3 $DBFile "select link from serials where codename='$CNAME';"
+				;;
+		esac
+		shift
+	done
 }
 
 echo_config_info(){
 	i=0
 	if [ $SERNUM -eq -1 ]; then
 		for gname in ${gname_lines[@]}; do
-			echo_serial_info ${gname} ${name_lines[$i]} ${url_lines[$i]} ${path_lines[$i]}
+			echo_serial_info -g ${gname} -n ${name_lines[$i]} -u ${url_lines[$i]} -p ${path_lines[$i]} $@
 			echo -e "${C_CYAN}---------------------------------------------${C_NONE}"
 			i=$(($i+1))
 		done
 	else
-		echo_serial_info ${gname_lines[$SERNUM]} ${name_lines[$SERNUM]} ${url_lines[$SERNUM]} ${path_lines[$SERNUM]}
+		echo_serial_info ${gname_lines[$SERNUM]} ${name_lines[$SERNUM]} ${url_lines[$SERNUM]} ${path_lines[$SERNUM]} $@
 	fi
 }
 
