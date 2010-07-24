@@ -11,6 +11,7 @@ lostfilm_check(){
 	mkdir -p "$TEMPORARY_DIR"
 	id=0
 	for gname in ${gname_lines[@]}; do
+		[ ! $SERNUM -eq -1 ] && [ ! $id -eq $SERNUM ] && id=$(($id+1)) && continue;
 		name=${name_lines[$id]}
 		gname=${gname_lines[$id]}
 		url=${url_lines[$id]}
