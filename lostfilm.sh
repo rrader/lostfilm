@@ -66,6 +66,7 @@ read_params(){
 				;;
 			
 			# алиасы действий(actions) через параметр --action $action
+			# в следующих коммитах будет основным методом управления скриптом
 			info)
 				shift;
 				params=""
@@ -85,6 +86,9 @@ read_params(){
 				[ -z "$params" ] && params="--config-info"
 				IFS=' '
 				echo_config_info $params
+				;;
+			check)
+				lostfilm_check
 				;;
 			
 			*)
@@ -121,6 +125,7 @@ read_config
 read_params "$@"
 
 # выполнение действий в соответствии с $ACTION
+# Этот кусок будет вырезан в ближайших коммитах
 case $ACTION in
 	"PING")
 		echo "PONG"
