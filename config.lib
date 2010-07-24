@@ -33,6 +33,8 @@ echo_serial_info(){
 			--file-list)
 				db_serial_episod_link_list
 				;;
+			*)  fatal_error "Неизвестный параметр к echo_serial_info $1"
+				;;
 		esac
 		shift
 	done
@@ -41,13 +43,14 @@ echo_serial_info(){
 echo_config_info(){
 	i=0
 	if [ $SERNUM -eq -1 ]; then
+		IFS=$'\n'
 		for gname in ${gname_lines[@]}; do
-			echo_serial_info -g ${gname} -n ${name_lines[$i]} -u ${url_lines[$i]} -p ${path_lines[$i]} $@
+			echo_serial_info -g "$gname" -n ${name_lines[$i]} -u ${url_lines[$i]} -p ${path_lines[$i]} $@
 			echo -e "${C_CYAN}---------------------------------------------${C_NONE}"
 			i=$(($i+1))
 		done
 	else
-		echo_serial_info -g ${gname_lines[$SERNUM]} -n ${name_lines[$SERNUM]} -u ${url_lines[$SERNUM]} -p ${path_lines[$SERNUM]} $@
+		echo_serial_info -g "${gname_lines[$SERNUM]}" -n ${name_lines[$SERNUM]} -u ${url_lines[$SERNUM]} -p ${path_lines[$SERNUM]} $@
 	fi
 }
 

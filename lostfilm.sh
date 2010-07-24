@@ -64,6 +64,29 @@ read_params(){
 				LOG=0
 				LOG_FILE="/dev/null"
 				;;
+			
+			# алиасы действий(actions) через параметр --action $action
+			info)
+				shift;
+				params=""
+				while [ -n "$1" ]; do
+					case $1 in
+						config) params="$params --config-info"
+						;;
+						count) params="$params --db-count"
+						;;
+						files) params="$params --file-list"
+						;;
+						*) fatal_error "Неизвестный параметр для info $1"
+						;;
+					esac
+					shift
+				done
+				[ -z "$params" ] && params="--config-info"
+				IFS=' '
+				echo_config_info $params
+				;;
+			
 			*)
 				fatal_error "Неизвестный параметр $1"
 				;;
@@ -94,8 +117,8 @@ crop_str(){
 # библиотека для работы с оповещениями
 . $BASEDIRECTORY/notify.lib
 
-read_params "$@"
 read_config
+read_params "$@"
 
 # выполнение действий в соответствии с $ACTION
 case $ACTION in
@@ -154,6 +177,8 @@ case $ACTION in
 		;;
 	"CONFIG LIST")
 		echo_config_info_line
+		;;
+	"DEFAULT")
 		;;
 	*)
 		fatal_error "Неизвестное действие $ACTION"
