@@ -99,8 +99,9 @@ read_params(){
 				shift;
 				while [ -n "$1" ]; do
 					case $1 in
-						delete)
-							db_remove_link $PURL
+						remove)
+							[ -n "$PURL" ] && db_remove_link $PURL
+							[ ! $SERNUM -eq -1 ] && db_remove_serial "${name_lines[$SERNUM]}"
 						;;
 					esac
 					shift;
@@ -111,8 +112,24 @@ read_params(){
 				while [ -n "$1" ]; do
 					case $1 in
 						add)
-							true
-						;;
+							config_read_serial_info
+							echo "$info_fcode|$info_fname|$info_furl|$info_fpath/%GNAME%"
+							log_stages 1 "Подтвердите добавление строки в конфиг-файл [y]"
+							read x
+							[ "x$x" == "xy" ] && config_add_serial "$info_fname" "$info_fcode" "$info_furl" "$info_fpath"\
+								&& log_it "Сериал \"$info_fname\" добавлен" ||\
+								fatal_error "Добавление сериала \"$info_fname\" прервано";
+							;;
+						remove)
+							[ $SERNUM -eq -1 ] && fatal_error "Укажите номер сериала через опцию -s. Например: lostfilm.sh -s 2 -a \"CONFIG REMOVE\""
+							echo_config_info
+							log_stages 1 "Удалить список загруженных серий из базы данных? [y/n]"
+							read x
+							[ "x$x" == "xy" ] && db_remove_serial "${name_lines[$SERNUM]}"
+							log_stages 1 "Подтвердите удаление сериала из конфигурации [y]"
+							read x
+							[ "x$x" == "xy" ] && config_remove_serial $SERNUM
+							;;
 					esac
 					shift;
 				done

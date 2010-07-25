@@ -55,6 +55,14 @@ db_serial_episod_link_list(){
 # $1 - url
 db_remove_link(){
 	sqlite3 $DBFile "delete from serials where link='$1';"
+	log_it "$1 удален из базы"
+}
+
+# Удалить все строки о сериале из базы
+# $1 - кодовое имя
+db_remove_serial(){
+	sqlite3 $DBFile "delete from serials where codename='$1';"
+	log_it "Сериал $1 удален из базы данных"
 }
 
 fi
