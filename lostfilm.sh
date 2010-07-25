@@ -1,8 +1,9 @@
 #!/bin/bash
 # скрипт для автоматической загрузки торрент-файлов новых серий разных сериалов с лостфильма
 # обновленная версия
+BASEDIRECTORY="`dirname $0`"
 
-. config.sh
+. $BASEDIRECTORY/config.sh
 
 CONFIG_FILE=$DATA_DIR/lostfilm_config
 DBFile=$DATA_DIR/serials.db
@@ -14,7 +15,6 @@ ACTION="DEFAULT"
 SERNUM=-1
 FAKE=0
 FORCE=0
-BASEDIRECTORY="`dirname $0`"
 
 mkdir -p "$TEMPORARY_DIR"
 #конец инициализации
@@ -92,7 +92,17 @@ read_params(){
 			check)
 				lostfilm_check
 				;;
-			
+			db)
+				shift;
+				while [ -n "$1" ]; do
+					case $1 in
+						delete)
+							db_remove_link $PURL
+						;;
+					esac
+					shift;
+				done
+				;;
 			*)
 				fatal_error "Неизвестный параметр $1"
 				;;

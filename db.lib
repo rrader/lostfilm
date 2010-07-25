@@ -51,4 +51,10 @@ db_serial_episod_link_list(){
 	sqlite3 $DBFile "select link from serials where codename='$CNAME';"
 }
 
+#Удалить ссылку из базы
+# $1 - url
+db_remove_link(){
+	sqlite3 $DBFile "delete from serials where link='$1';"
+}
+
 fi
