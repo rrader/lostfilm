@@ -33,6 +33,9 @@ echo_serial_info(){
 			--file-list)
 				db_serial_episod_link_list
 				;;
+			--list)
+				echo "$(($i+1)): $CNAME|$GNAME|`basename $TFURL`|$DPATH"
+				;;
 			*)  fatal_error "Неизвестный параметр к echo_serial_info $1"
 				;;
 		esac

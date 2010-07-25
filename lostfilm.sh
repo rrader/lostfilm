@@ -72,11 +72,13 @@ read_params(){
 				params=""
 				while [ -n "$1" ]; do
 					case $1 in
-						config) params="$params --config-info"
+						about) params="$params --config-info"
 						;;
 						count) params="$params --db-count"
 						;;
 						files) params="$params --file-list"
+						;;
+						config) params="$params --list"
 						;;
 						*) fatal_error "Неизвестный параметр для info $1"
 						;;
