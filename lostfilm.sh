@@ -89,8 +89,11 @@ read_params(){
 				IFS=' '
 				echo_config_info $params
 				;;
-			check)
+			c|check)
 				lostfilm_check
+				;;
+			cc|checkcomplete)
+				check_complete
 				;;
 			db)
 				shift;
@@ -98,6 +101,17 @@ read_params(){
 					case $1 in
 						delete)
 							db_remove_link $PURL
+						;;
+					esac
+					shift;
+				done
+				;;
+			config)
+				shift;
+				while [ -n "$1" ]; do
+					case $1 in
+						add)
+							true
 						;;
 					esac
 					shift;
