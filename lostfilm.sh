@@ -29,10 +29,6 @@ crop_str(){
 
 while [ -n "$1" ]; do
 	case $1 in
-		-a|--action)
-			shift
-			ACTION="$1"
-			;;
 		-s|--serial)
 			shift
 			SERNUM=$(($1-1))
