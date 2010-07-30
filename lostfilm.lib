@@ -57,6 +57,7 @@ check_complete(){
 	
 	NUM=0
 	for name in ${name_lines[@]}; do
+		[ ! $SERNUM -eq -1 ] && [ ! $NUM -eq $SERNUM ] && NUM=$(($NUM+1)) && continue;
 		<$TEMPORARY_DIR/complete_list grep -i "Lostfilm.TV" | grep -i "$name" > $TEMPORARY_DIR/${name}.complete
 		while read str; do
 			fpath="`bt_get_file_path "$str"`"
