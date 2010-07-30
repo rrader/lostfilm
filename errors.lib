@@ -17,26 +17,26 @@ some_error(){
 # фатальная ошибка - сообщение с последующим выходом из программы
 # $1 - текст сообщения
 fatal_error(){
-	some_error 'FATAL' "$1" $C_RED
+	some_error 'FATAL' "$1" $C_RED >&2
 	exit 1
 }
 
 # ошибка базы данных
 # $1 - текст сообщения
 db_error(){
-	some_error 'DB' "$1" $C_RED
+	some_error 'DB' "$1" $C_RED >&2
 }
 
 # логирование дополнительной информации
 # $1 - текст сообщения
 log_it(){
-	some_error 'INFO' "$1" $C_WHITE
+	some_error 'INFO' "$1" $C_WHITE >&2
 }
 
 # логирование со статусом "выполняется..."
 # $1 - текст сообщения
 log_inprogress(){
-	some_error '=>' "$1" $C_YELLOW
+	some_error '=>' "$1" $C_YELLOW >&2
 }
 
 # логирование со статусом "завершено"
