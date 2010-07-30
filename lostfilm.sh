@@ -26,21 +26,6 @@ crop_str(){
 	[ ${#1} -gt $2 ] && echo "${1:0:$(($2-3))}..." || echo "$1"
 }
 
-# библиотека для работы с лостфильмом
-. $BASEDIRECTORY/lostfilm.lib
-# библиотека для работы с базой данных
-. $BASEDIRECTORY/db.lib
-# библиотека для обработки ошибок
-. $BASEDIRECTORY/errors.lib
-# библиотека для цветного вывода на терминал
-. $BASEDIRECTORY/colors.lib
-# библиотека для работы с торрент-клиентом
-. $BASEDIRECTORY/btclient.lib
-# библиотека для работы с конфиг-файлом
-. $BASEDIRECTORY/config.lib
-# библиотека для работы с оповещениями
-. $BASEDIRECTORY/notify.lib
-
 while [ -n "$1" ]; do
 	case $1 in
 		-a|--action)
@@ -131,6 +116,21 @@ while [ -n "$1" ]; do
 	esac
 	shift
 done
+
+# библиотека для работы с лостфильмом
+. $BASEDIRECTORY/lostfilm.lib
+# библиотека для работы с базой данных
+. $BASEDIRECTORY/db.lib
+# библиотека для обработки ошибок
+. $BASEDIRECTORY/errors.lib
+# библиотека для цветного вывода на терминал
+. $BASEDIRECTORY/colors.lib
+# библиотека для работы с торрент-клиентом
+. $BASEDIRECTORY/btclient.lib
+# библиотека для работы с конфиг-файлом
+. $BASEDIRECTORY/config.lib
+# библиотека для работы с оповещениями
+. $BASEDIRECTORY/notify.lib
 
 read_config
 
