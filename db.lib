@@ -4,7 +4,7 @@ L_DB_LIB="LOADED"
 
 . $BASEDIRECTORY/errors.lib
 
-[ -f $DBFile ] || db_error "Файл базы данных не найден"
+[ -f $DBFile ] || fatal_error "Файл базы данных $DBFile не найден"
 
 init_db(){
 	log_it "Init DB $DBFile"
