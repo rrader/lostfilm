@@ -79,38 +79,50 @@ while [ -n "$1" ]; do
 			LOG=$1
 			LOG_FILE="$LOG_FILE_PATH"
 			;;
+		--log-file)
+			shift;
+			LOG_FILE="$1"
+			;;
 		# config:
 		--data-dir)
 			shift;
-			DATA_DIR=$1
+			DATA_DIR="$1"
 			;;
 		--torrents-dir)
 			shift;
-			TORRENTS_DIR=$1
+			TORRENTS_DIR="$1"
 			;;
 		--download-dir)
 			shift;
-			DOWNLOAD_DIR=$1
+			DOWNLOAD_DIR="$1"
 			;;
 		--complete-dir)
 			shift;
-			COMPLETE_DIR=$1
+			COMPLETE_DIR="$1"
 			;;
 		--temporary-dir)
 			shift;
-			TEMPORARY_DIR=$1
+			TEMPORARY_DIR="$1"
 			;;
 		--user-id)
 			shift;
-			LOSTFILM_USERID=$1
+			LOSTFILM_USERID="$1"
 			;;
 		--user-password)
 			shift;
-			LOSTFILM_PASSWD=$1
+			LOSTFILM_PASSWD="$1"
 			;;
 		--torrent-client)
 			shift;
-			TORRENT_CLIENT=$1
+			TORRENT_CLIENT="$1"
+			;;
+		--config-file)
+			shift;
+			CONFIG_FILE="$1"
+			;;
+		--db-file)
+			shift;
+			DBFile="$1"
 			;;
 
 		*)
