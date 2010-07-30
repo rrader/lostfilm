@@ -40,33 +40,59 @@ read_params(){
 			--force)
 				FORCE=1
 				;;
+			# notifications:
 			--xmpp)
-				XMPP_REPORT=1
-				;;
-			--no-xmpp)
-				XMPP_REPORT=0
+				shift;
+				XMPP_REPORT=$1
 				;;
 			--xmpp-jid)
 				shift
 				REPORT_JID=$1
 				;;
 			--juick)
-				JUICK_REPORT=1
-				;;
-			--no-juick)
-				JUICK_REPORT=0
+				shift;
+				JUICK_REPORT=$1
 				;;
 			--log)
-				LOG=1
+				shift;
+				LOG=$1
 				LOG_FILE="$LOG_FILE_PATH"
 				;;
-			--no-log)
-				LOG=0
-				LOG_FILE="/dev/null"
+			# config:
+			--data-dir)
+				shift;
+				DATA_DIR=$1
+				;;
+			--torrents-dir)
+				shift;
+				TORRENTS_DIR=$1
+				;;
+			--download-dir)
+				shift;
+				DOWNLOAD_DIR=$1
+				;;
+			--complete-dir)
+				shift;
+				COMPLETE_DIR=$1
+				;;
+			--temporary-dir)
+				shift;
+				TEMPORARY_DIR=$1
+				;;
+			--user-id)
+				shift;
+				LOSTFILM_USERID=$1
+				;;
+			--user-password)
+				shift;
+				LOSTFILM_PASSWD=$1
+				;;
+			--torrent-client)
+				shift;
+				TORRENT_CLIENT=$1
 				;;
 			
-			# действия
-			
+			# действия:
 			ping)
 				echo "pong";
 				;;
