@@ -110,6 +110,7 @@ while [ -n "$1" ]; do
 			DBFile="$1"
 			;;
 		initdb)
+			. $BASEDIRECTORY/db.lib
 			init_db
 			;;
 
