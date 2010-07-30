@@ -109,6 +109,9 @@ while [ -n "$1" ]; do
 			shift;
 			DBFile="$1"
 			;;
+		initdb)
+			init_db
+			;;
 
 		*)
 			break;
@@ -139,9 +142,6 @@ while [ -n "$1" ]; do
 		# действия:
 		ping)
 			echo "pong";
-			;;
-		initdb)
-			init_db
 			;;
 		info)
 			shift;
