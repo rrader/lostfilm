@@ -70,6 +70,7 @@ echo_config_info_line(){
 }
 
 read_config(){
+	[ ! -f $CONFIG_FILE ] && fatal_error "Файл $CONFIG_FILE конфигурации не найден"
 	IFS=$'\n'
 	index=0
 
