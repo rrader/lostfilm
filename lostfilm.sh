@@ -112,7 +112,18 @@ while [ -n "$1" ]; do
 			shift;
 			TORRENT_CLIENT=$1
 			;;
-		
+
+		*)
+			break;
+			;;
+	esac
+	shift
+done
+
+read_config
+
+while [ -n "$1" ]; do
+	case $1 in
 		# действия:
 		ping)
 			echo "pong";
@@ -199,12 +210,10 @@ while [ -n "$1" ]; do
 			done
 			;;
 		*)
-			break;
+			fatal_error "Неизвестный параметр $1"
 			;;
 	esac
 	shift
 done
-
-read_params "$@"
 
 send_all_notifies
