@@ -177,6 +177,7 @@ while [ -n "$1" ]; do
 			while [ -n "$1" ]; do
 				case $1 in
 					remove)
+						[ $FORCE -eq 1 ] || fatal_error "Для подтверждения удаления данных добавте параметр --force"
 						[ -n "$PURL" ] && db_remove_link $PURL
 						[ ! $SERNUM -eq -1 ] && db_remove_serial "${name_lines[$SERNUM]}"
 						;;
