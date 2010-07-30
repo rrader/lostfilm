@@ -65,8 +65,7 @@ read_params(){
 				LOG_FILE="/dev/null"
 				;;
 			
-			# алиасы действий(actions) через параметр --action $action
-			# в следующих коммитах будет основным методом управления скриптом
+			# действия
 			
 			ping)
 				echo "pong";
@@ -184,71 +183,5 @@ crop_str(){
 
 read_config
 read_params "$@"
-
-# выполнение действий в соответствии с $ACTION
-# Этот кусок будет вырезан в ближайших коммитах
-case $ACTION in
-	"PING")
-		echo "PONG"
-		;;
-	"INFO")
-		echo_config_info --config-info
-		;;
-	"INFO DB")
-		echo_config_info --db-count
-		;;
-	"INFO DB LIST")
-		echo_config_info --file-list
-		;;
-	"INITDB")
-		init_db
-		;;
-	"CHECK")
-		lostfilm_check
-		;;
-	"URLEXISTS")
-		torrent_exists $PURL
-		log_it "$PURL в базе данных 1/0: $?"
-		;;
-	"PURGE")
-		[ $FORCE -eq 1 ] || fatal_error "Для подтверждения очистки базы данных добавте параметр --force"
-		if [ $FORCE -eq 1 ]; then
-			purge_base "YES, I KNOW WHAT IT IS"
-			init_db
-		fi
-		;;
-	"PURGE TORRENTS DIR")
-		[ $FORCE -eq 1 ] || fatal_error "Для подтверждения очистки папки торрентов добавте параметр --force"
-		if [ $FORCE -eq 1 ]; then
-			rm -f ${TORRENTS_DIR}/*.torrent
-		fi
-		;;
-	"CHECK COMPLETE")
-		check_complete
-		;;
-	"CONFIG ADD")
-		config_read_serial_info
-		echo "$info_fcode|$info_fname|$info_furl|$info_fpath/%GNAME%"
-		log_stages 1 "Подтвердите добавление строки в конфиг-файл [y]"
-		read x
-		[ "x$x" == "xy" ] && config_add_serial "$info_fname" "$info_fcode" "$info_furl" "$info_fpath"\
-		&& log_it "Сериал \"$info_fname\" добавлен" || fatal_error "Добавление сериала \"$info_fname\" прервано";
-		;;
-	"CONFIG REMOVE")
-		[ $SERNUM -eq -1 ] && fatal_error "Укажите номер сериала через опцию -s. Например: lostfilm.sh -s 2 -a \"CONFIG REMOVE\""
-		echo_config_info
-		log_stages 1 "Подтвердите удаление сериала [y]"
-		read x
-		[ "x$x" == "xy" ] && config_remove_serial $SERNUM
-		;;
-	"CONFIG LIST")
-		echo_config_info_line
-		;;
-	"DEFAULT")
-		;;
-	*)
-		fatal_error "Неизвестное действие $ACTION"
-		;;
-esac
 
 send_all_notifies
