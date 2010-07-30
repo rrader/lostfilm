@@ -1,7 +1,16 @@
 LostFilm.TV Checker
-Version 0.1
+Version 0.8rc
 
 Скрипт для автоматической загрузки торрент-файлов новых серий разных сериалов с Lostfilm.TV.
 Плюшки:
  - Автоматическая проверка нескольких сериалов на новые серии
  - Использование sqlite базы данных
+
+Параметры запуска:
+  Формат запуска:
+      lostfilm.sh -s <N> -u <"url"> --fake --force -nan --xmpp <1/0> --xmpp-jid <xmpp@jid.com> \
+          --juick <1/0> --log <1/0> --log-file <"/path/to/log"> --data-dir <"/path/to/dir"> \
+          --torrents-dir <"/path/to/dir"> --download-dir <"/path/to/dir"> --complete-dir <"/path/to/dir"> \
+          --temporary-dir <"/path/to/dir"> --user-id <ID> --user-password <"password-hash"> \
+          --torrent-client <"torrent-client"> --config-file <"/path/to/config"> \
+          --db-file <"/path/to/file.db"> initdb info c cc db config
