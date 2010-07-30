@@ -6,44 +6,53 @@ L_LOSTFILM_LIB="LOADED"
 . $BASEDIRECTORY/btclient.lib
 . $BASEDIRECTORY/colors.lib
 
+# Проверка определенного сериала
+# $1 - номер сериала
+lostfilm_check_serial(){
+	name=${name_lines[$1]}
+	gname=${gname_lines[$1]}
+	url=${url_lines[$1]}
+	path=${path_lines[$1]}
+	torrents_list="$TEMPORARY_DIR/${name}.torrents-list"
+	
+	some_error '=>' "Проверка ${C_WHITE}\"$gname\"${C_NONE}" $C_YELLOW 1
+	some_error '=>' "Проверка \"$gname\"" $C_YELLOW 2
+	log_stages 1 "Загрузка списка торрент-файлов"
+	wget -q -O- "$url" | grep -o "/download.php/.*${name}.*\.torrent" \
+			| grep -ir "S[0-9]\{1,\}E[0-9]\{1,\}" | sed -r "s/\/download.php\/(.*${name}.*\.torrent)/\1/g" \
+			| sort -u > $torrents_list
+	log_stages 1 "Обнаружение новых серий по базе данных"
+	NEWCOUNT=0
+	while read current; do
+		torrent_exists "$current"
+		if [ $? -eq 0 ]; then
+			some_error 'NEW' "Новая серия: $gname, $EPISOD" $C_CYAN
+			UNIQUENUM=`echo $current | grep -o "[0-9]*" | sed '1 ! d'`
+			mkdir -p $TEMPORARY_DIR/downloads
+			cd $TEMPORARY_DIR/downloads
+			torrent_file="$TEMPORARY_DIR/downloads/${UNIQUENUM}-${name}.torrent"
+			[ $FAKE -eq 0 ] && wget "http://www.lostfilm.tv/download.php/$current" --header \
+				"Cookie: uid=$LOSTFILM_USERID; pass=$LOSTFILM_PASSWD"\
+				-O "$torrent_file" >/dev/null 2>&1 \
+				&& bt_addtorrent "$torrent_file" && add_to_base "$name" "$current" && NEWCOUNT=$(($NEWCOUNT+1))
+			[ $FAKE -eq 0 ] || add_to_base "$name" "$current"
+			cd - >/dev/null 2>&1
+		fi
+	done < $torrents_list
+	rm -f $torrents_list
+	log_inprogress_ok "Проверка \"$gname\" завершена" "$NEWCOUNT new"
+}
+
 lostfilm_check(){
 	log_it "Начало проверки Lostfilm.TV"
+	rm -rf "$TEMPORARY_DIR/"
 	mkdir -p "$TEMPORARY_DIR"
 	id=0
 	for gname in ${gname_lines[@]}; do
 		[ ! $SERNUM -eq -1 ] && [ ! $id -eq $SERNUM ] && id=$(($id+1)) && continue;
-		name=${name_lines[$id]}
-		gname=${gname_lines[$id]}
-		url=${url_lines[$id]}
-		path=${path_lines[$id]}
-		torrents_list="$TEMPORARY_DIR/${name}.torrents-list"
-		
-		some_error '=>' "Проверка ${C_WHITE}\"$gname\"${C_NONE}" $C_YELLOW 1
-		some_error '=>' "Проверка \"$gname\"" $C_YELLOW 2
-		log_stages 1 "Загрузка списка торрент-файлов"
-		wget -q -O- $url | grep -o "/download.php/.*${name}.*\.torrent" \
-				| grep -ir "S[0-9]\{1,\}E[0-9]\{1,\}" | sed -r "s/\/download.php\/(.*${name}.*\.torrent)/\1/g" \
-				| sort -u > $torrents_list
-		log_stages 1 "Обнаружение новых серий по базе данных"
-		NEWCOUNT=0
-		while read current; do
-			torrent_exists $current
-			if [ $? -eq 0 ]; then
-				some_error 'NEW' "Новая серия: $gname, $EPISOD" $C_CYAN
-				UNIQUENUM=`echo $current | grep -o "[0-9]*" | sed '1 ! d'`
-				mkdir -p $TEMPORARY_DIR/downloads
-				cd $TEMPORARY_DIR/downloads
-				torrent_file="$TEMPORARY_DIR/downloads/${UNIQUENUM}-${name}.torrent"
-				[ $FAKE -eq 0 ] && wget "http://www.lostfilm.tv/download.php/$current" --header \
-					"Cookie: uid=$LOSTFILM_USERID; pass=$LOSTFILM_PASSWD"\
-					-O "$torrent_file" >/dev/null 2>&1 \
-					&& bt_addtorrent "$torrent_file" && add_to_base "$name" "$current" && NEWCOUNT=$(($NEWCOUNT+1))
-				[ $FAKE -eq 0 ] || add_to_base "$name" "$current"
-				cd - >/dev/null 2>&1
-			fi
-		done < $torrents_list
-		rm -f $torrents_list
-		log_inprogress_ok "Проверка \"$gname\" завершена" "$NEWCOUNT new"
+		echo -n "Wait... "
+		for x in `seq 5 -1 1`; do echo -n "$x.. "; sleep 1; done; echo "";
+		lostfilm_check_serial $id
 		echo ""
 		id=$(($id+1))
 	done

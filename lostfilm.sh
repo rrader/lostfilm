@@ -12,6 +12,7 @@ LOG_FILE="$LOG_FILE_PATH"
 
 #инициализация
 ACTION="DEFAULT"
+NOANYNOTIFY=0
 SERNUM=-1
 FAKE=0
 FORCE=0
@@ -47,6 +48,9 @@ while [ -n "$1" ]; do
 			FORCE=1
 			;;
 		# notifications:
+		-nan|--no-any-notify)
+			NOANYNOTIFY=1
+			;;
 		--xmpp)
 			shift;
 			XMPP_REPORT=$1
@@ -229,4 +233,4 @@ while [ -n "$1" ]; do
 	shift
 done
 
-send_all_notifies
+[ $NOANYNOTIFY -eq 0 ] && send_all_notifies
