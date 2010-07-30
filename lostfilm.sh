@@ -19,172 +19,6 @@ FORCE=0
 mkdir -p "$TEMPORARY_DIR"
 #конец инициализации
 
-read_params(){
-	while [ -n "$1" ]; do
-		case $1 in
-			-a|--action)
-				shift
-				ACTION="$1"
-				;;
-			-s|--serial)
-				shift
-				SERNUM=$(($1-1))
-				;;
-			-u|--url)
-				shift
-				PURL=$1
-				;;
-			--fake)
-				FAKE=1
-				;;
-			--force)
-				FORCE=1
-				;;
-			# notifications:
-			--xmpp)
-				shift;
-				XMPP_REPORT=$1
-				;;
-			--xmpp-jid)
-				shift
-				REPORT_JID=$1
-				;;
-			--juick)
-				shift;
-				JUICK_REPORT=$1
-				;;
-			--log)
-				shift;
-				LOG=$1
-				LOG_FILE="$LOG_FILE_PATH"
-				;;
-			# config:
-			--data-dir)
-				shift;
-				DATA_DIR=$1
-				;;
-			--torrents-dir)
-				shift;
-				TORRENTS_DIR=$1
-				;;
-			--download-dir)
-				shift;
-				DOWNLOAD_DIR=$1
-				;;
-			--complete-dir)
-				shift;
-				COMPLETE_DIR=$1
-				;;
-			--temporary-dir)
-				shift;
-				TEMPORARY_DIR=$1
-				;;
-			--user-id)
-				shift;
-				LOSTFILM_USERID=$1
-				;;
-			--user-password)
-				shift;
-				LOSTFILM_PASSWD=$1
-				;;
-			--torrent-client)
-				shift;
-				TORRENT_CLIENT=$1
-				;;
-			
-			# действия:
-			ping)
-				echo "pong";
-				;;
-			initdb)
-				init_db
-				;;
-			info)
-				shift;
-				params=""
-				while [ -n "$1" ]; do
-					case $1 in
-						about) params="$params --config-info"
-						;;
-						count) params="$params --db-count"
-						;;
-						files) params="$params --file-list"
-						;;
-						config) params="$params --list"
-						;;
-						*) fatal_error "Неизвестный параметр для info $1"
-						;;
-					esac
-					shift
-				done
-				[ -z "$params" ] && params="--config-info"
-				IFS=' '
-				echo_config_info $params
-				;;
-			c|check)
-				lostfilm_check
-				;;
-			cc|checkcomplete)
-				check_complete
-				;;
-			db)
-				shift;
-				while [ -n "$1" ]; do
-					case $1 in
-						remove)
-							[ -n "$PURL" ] && db_remove_link $PURL
-							[ ! $SERNUM -eq -1 ] && db_remove_serial "${name_lines[$SERNUM]}"
-							;;
-						exists)
-							torrent_exists $PURL
-							t_ex=$?
-							[ $t_ex -eq 1 ] && log_it "$PURL в базе данных присутствует" || log_it "$PURL в базе данных отсутствует"
-							[ $t_ex -eq 1 ] && echo exists || echo not exists;
-							;;
-						purge)
-							[ $FORCE -eq 1 ] || fatal_error "Для подтверждения очистки базы данных добавте параметр --force"
-							purge_base "YES, I KNOW WHAT IT IS"
-							init_db
-							;;
-					esac
-					shift;
-				done
-				;;
-			config)
-				shift;
-				while [ -n "$1" ]; do
-					case $1 in
-						add)
-							config_read_serial_info
-							echo "$info_fcode|$info_fname|$info_furl|$info_fpath/%GNAME%"
-							log_stages 1 "Подтвердите добавление строки в конфиг-файл [y]"
-							read x
-							[ "x$x" == "xy" ] && config_add_serial "$info_fname" "$info_fcode" "$info_furl" "$info_fpath"\
-								&& log_it "Сериал \"$info_fname\" добавлен" ||\
-								fatal_error "Добавление сериала \"$info_fname\" прервано";
-							;;
-						remove)
-							[ $SERNUM -eq -1 ] && fatal_error "Укажите номер сериала через опцию -s. Например: lostfilm.sh -s 2 -a \"CONFIG REMOVE\""
-							echo_config_info
-							log_stages 1 "Удалить список загруженных серий из базы данных? [y/n]"
-							read x
-							[ "x$x" == "xy" ] && db_remove_serial "${name_lines[$SERNUM]}"
-							log_stages 1 "Подтвердите удаление сериала из конфигурации [y]"
-							read x
-							[ "x$x" == "xy" ] && config_remove_serial $SERNUM
-							;;
-					esac
-					shift;
-				done
-				;;
-			*)
-				fatal_error "Неизвестный параметр $1"
-				;;
-		esac
-		shift
-	done
-}
-
 # Обрезает строку до нужной длины
 # $1 - строка
 # $2 - требуемая длина
@@ -207,7 +41,170 @@ crop_str(){
 # библиотека для работы с оповещениями
 . $BASEDIRECTORY/notify.lib
 
-read_config
+while [ -n "$1" ]; do
+	case $1 in
+		-a|--action)
+			shift
+			ACTION="$1"
+			;;
+		-s|--serial)
+			shift
+			SERNUM=$(($1-1))
+			;;
+		-u|--url)
+			shift
+			PURL=$1
+			;;
+		--fake)
+			FAKE=1
+			;;
+		--force)
+			FORCE=1
+			;;
+		# notifications:
+		--xmpp)
+			shift;
+			XMPP_REPORT=$1
+			;;
+		--xmpp-jid)
+			shift
+			REPORT_JID=$1
+			;;
+		--juick)
+			shift;
+			JUICK_REPORT=$1
+			;;
+		--log)
+			shift;
+			LOG=$1
+			LOG_FILE="$LOG_FILE_PATH"
+			;;
+		# config:
+		--data-dir)
+			shift;
+			DATA_DIR=$1
+			;;
+		--torrents-dir)
+			shift;
+			TORRENTS_DIR=$1
+			;;
+		--download-dir)
+			shift;
+			DOWNLOAD_DIR=$1
+			;;
+		--complete-dir)
+			shift;
+			COMPLETE_DIR=$1
+			;;
+		--temporary-dir)
+			shift;
+			TEMPORARY_DIR=$1
+			;;
+		--user-id)
+			shift;
+			LOSTFILM_USERID=$1
+			;;
+		--user-password)
+			shift;
+			LOSTFILM_PASSWD=$1
+			;;
+		--torrent-client)
+			shift;
+			TORRENT_CLIENT=$1
+			;;
+		
+		# действия:
+		ping)
+			echo "pong";
+			;;
+		initdb)
+			init_db
+			;;
+		info)
+			shift;
+			params=""
+			while [ -n "$1" ]; do
+				case $1 in
+					about) params="$params --config-info"
+					;;
+					count) params="$params --db-count"
+					;;
+					files) params="$params --file-list"
+					;;
+					config) params="$params --list"
+					;;
+					*) fatal_error "Неизвестный параметр для info $1"
+					;;
+				esac
+				shift
+			done
+			[ -z "$params" ] && params="--config-info"
+			IFS=' '
+			echo_config_info $params
+			;;
+		c|check)
+			lostfilm_check
+			;;
+		cc|checkcomplete)
+			check_complete
+			;;
+		db)
+			shift;
+			while [ -n "$1" ]; do
+				case $1 in
+					remove)
+						[ -n "$PURL" ] && db_remove_link $PURL
+						[ ! $SERNUM -eq -1 ] && db_remove_serial "${name_lines[$SERNUM]}"
+						;;
+					exists)
+						torrent_exists $PURL
+						t_ex=$?
+						[ $t_ex -eq 1 ] && log_it "$PURL в базе данных присутствует" || log_it "$PURL в базе данных отсутствует"
+						[ $t_ex -eq 1 ] && echo exists || echo not exists;
+						;;
+					purge)
+						[ $FORCE -eq 1 ] || fatal_error "Для подтверждения очистки базы данных добавте параметр --force"
+						purge_base "YES, I KNOW WHAT IT IS"
+						init_db
+						;;
+				esac
+				shift;
+			done
+			;;
+		config)
+			shift;
+			while [ -n "$1" ]; do
+				case $1 in
+					add)
+						config_read_serial_info
+						echo "$info_fcode|$info_fname|$info_furl|$info_fpath/%GNAME%"
+						log_stages 1 "Подтвердите добавление строки в конфиг-файл [y]"
+						read x
+						[ "x$x" == "xy" ] && config_add_serial "$info_fname" "$info_fcode" "$info_furl" "$info_fpath"\
+							&& log_it "Сериал \"$info_fname\" добавлен" ||\
+							fatal_error "Добавление сериала \"$info_fname\" прервано";
+						;;
+					remove)
+						[ $SERNUM -eq -1 ] && fatal_error "Укажите номер сериала через опцию -s. Например: lostfilm.sh -s 2 -a \"CONFIG REMOVE\""
+						echo_config_info
+						log_stages 1 "Удалить список загруженных серий из базы данных? [y/n]"
+						read x
+						[ "x$x" == "xy" ] && db_remove_serial "${name_lines[$SERNUM]}"
+						log_stages 1 "Подтвердите удаление сериала из конфигурации [y]"
+						read x
+						[ "x$x" == "xy" ] && config_remove_serial $SERNUM
+						;;
+				esac
+				shift;
+			done
+			;;
+		*)
+			break;
+			;;
+	esac
+	shift
+done
+
 read_params "$@"
 
 send_all_notifies
