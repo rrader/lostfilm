@@ -67,6 +67,13 @@ read_params(){
 			
 			# алиасы действий(actions) через параметр --action $action
 			# в следующих коммитах будет основным методом управления скриптом
+			
+			ping)
+				echo "pong";
+				;;
+			initdb)
+				init_db
+				;;
 			info)
 				shift;
 				params=""
@@ -102,7 +109,18 @@ read_params(){
 						remove)
 							[ -n "$PURL" ] && db_remove_link $PURL
 							[ ! $SERNUM -eq -1 ] && db_remove_serial "${name_lines[$SERNUM]}"
-						;;
+							;;
+						exists)
+							torrent_exists $PURL
+							t_ex=$?
+							[ $t_ex -eq 1 ] && log_it "$PURL в базе данных присутствует" || log_it "$PURL в базе данных отсутствует"
+							[ $t_ex -eq 1 ] && echo exists || echo not exists;
+							;;
+						purge)
+							[ $FORCE -eq 1 ] || fatal_error "Для подтверждения очистки базы данных добавте параметр --force"
+							purge_base "YES, I KNOW WHAT IT IS"
+							init_db
+							;;
 					esac
 					shift;
 				done

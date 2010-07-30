@@ -56,7 +56,7 @@ COUNT=0
 MARK=0
 read_params $@
 #начало тестирования
-TEST_STR_CMD "./lostfilm.sh -a PING" "PONG" Ping
+TEST_STR_CMD "./lostfilm.sh ping" "pong" Ping
 MARK=$(($MARK+$?));
 
 if [ $VERBOSE -eq 1 ]; then
