@@ -8,6 +8,7 @@ NOTIFY_SESSION_FILE="$TEMPORARY_DIR/notify.session"
 # инициализация сессии
 notify_start_session(){
 	rm -f "$NOTIFY_SESSION_FILE"
+	mkdir -p "`dirname "$NOTIFY_SESSION_FILE"`/"
 	touch "$NOTIFY_SESSION_FILE"
 }
 
