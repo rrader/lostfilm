@@ -19,7 +19,8 @@ new_notify(){
 }
 
 send_all_notifies(){
-	[ -z "`cat $NOTIFY_SESSION_FILE`" ] && return;
+	[ ! -f "$NOTIFY_SESSION_FILE" ] && return;
+	[ -z "`cat "$NOTIFY_SESSION_FILE"`" ] && return;
 	[ $XMPP_REPORT  -eq 1 ] && <"$NOTIFY_SESSION_FILE" sendxmpp "$REPORT_JID"
 	[ $JUICK_REPORT -eq 1 ] && <"$NOTIFY_SESSION_FILE" sendjuick
 }
