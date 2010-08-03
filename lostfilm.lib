@@ -18,7 +18,7 @@ lostfilm_check_serial(){
 	some_error '=>' "Проверка ${C_WHITE}\"$gname\"${C_NONE}" $C_YELLOW 1
 	some_error '=>' "Проверка \"$gname\"" $C_YELLOW 2
 	log_stages 1 "Загрузка списка торрент-файлов"
-	wget -q -O- "$url" | grep -o "/download.php/.*${name}.*\.torrent" \
+	wget -q -O- "$url" | grep -io "/download.php/${name}.s[0-9]*e[0-9]*.*\.torrent" \
 			| grep -ir "S[0-9]\{1,\}E[0-9]\{1,\}" | sed -r "s/\/download.php\/(.*${name}.*\.torrent)/\1/g" \
 			| sort -u > $torrents_list
 	log_stages 1 "Обнаружение новых серий по базе данных"
@@ -67,7 +67,7 @@ check_complete(){
 	NUM=0
 	for name in ${name_lines[@]}; do
 		[ ! $SERNUM -eq -1 ] && [ ! $NUM -eq $SERNUM ] && NUM=$(($NUM+1)) && continue;
-		<$TEMPORARY_DIR/complete_list grep -i "Lostfilm.TV" | grep -i "$name" > $TEMPORARY_DIR/${name}.complete
+		<$TEMPORARY_DIR/complete_list grep -i "Lostfilm.TV" | grep -i "^${name}.s[0-9]*e[0-9]*.*" > $TEMPORARY_DIR/${name}.complete
 		while read str; do
 			fpath="`bt_get_file_path "$str"`"
 			bt_removetorrent "$str"
