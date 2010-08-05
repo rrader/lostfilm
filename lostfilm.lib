@@ -26,6 +26,7 @@ lostfilm_check_serial(){
 	while read current; do
 		torrent_exists "$current"
 		if [ $? -eq 0 ]; then
+			EPISOD="`echo $current | grep -iro 'S[0-9]\{1,\}E[0-9]\{1,\}'`"
 			some_error 'NEW' "Новая серия: $gname, $EPISOD" $C_CYAN
 			UNIQUENUM=`echo $current | grep -o "[0-9]*" | sed '1 ! d'`
 			mkdir -p $TEMPORARY_DIR/downloads
