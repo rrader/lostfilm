@@ -1,5 +1,6 @@
 # Функции для работы с торрент-клиентом
-
+#  Автор: Antigluk, Роман Радер [antigluk@gmail.com]
+#  http://github.com/antigluk/lostfilm
 if [ ! "$L_BTCLIENT_LIB" == "LOADED" ]; then
 L_BTCLIENT_LIB="LOADED"
 

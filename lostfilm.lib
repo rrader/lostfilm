@@ -1,5 +1,6 @@
 #Функции для работы с лостфильмом
-
+#  Автор: Antigluk, Роман Радер [antigluk@gmail.com]
+#  http://github.com/antigluk/lostfilm
 if [ ! "$L_LOSTFILM_LIB" == "LOADED" ]; then
 L_LOSTFILM_LIB="LOADED"
 

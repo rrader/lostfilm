@@ -62,3 +62,7 @@ Version 0.8rc
  "config": управление файлом конфигурации
        config add: добавление сериала в базу данных
        config remove: удаление сериала из базы данных (указать через опцию --serial <N>)
+
+
+  Автор: Antigluk, Роман Радер [antigluk@gmail.com]
+  http://github.com/antigluk/lostfilm

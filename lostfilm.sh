@@ -1,4 +1,7 @@
 #!/bin/bash
+#  Автор: Antigluk, Роман Радер [antigluk@gmail.com]
+#  http://github.com/antigluk/lostfilm
+
 # скрипт для автоматической загрузки торрент-файлов новых серий разных сериалов с лостфильма
 # обновленная версия
 BASEDIRECTORY="`dirname $0`"

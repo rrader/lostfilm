@@ -1,4 +1,6 @@
 # Обработка ошибок
+#  Автор: Antigluk, Роман Радер [antigluk@gmail.com]
+#  http://github.com/antigluk/lostfilm
 if [ ! "$L_ERRORS_LIB" == "LOADED" ]; then
 L_ERRORS_LIB="LOADED"
 

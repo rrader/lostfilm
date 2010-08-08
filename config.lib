@@ -1,5 +1,6 @@
 # функции для работы с конфиг-файлом
-
+#  Автор: Antigluk, Роман Радер [antigluk@gmail.com]
+#  http://github.com/antigluk/lostfilm
 if [ ! "$L_CONFIG_LIB" == "LOADED" ]; then
 L_CONFIG_LIB="LOADED"
 

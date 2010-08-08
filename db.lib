@@ -1,4 +1,6 @@
 # Функции для работы с базой данных для хранения списка сериалов
+#  Автор: Antigluk, Роман Радер [antigluk@gmail.com]
+#  http://github.com/antigluk/lostfilm
 if [ ! "$L_DB_LIB" == "LOADED" ]; then
 L_DB_LIB="LOADED"
 

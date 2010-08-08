@@ -1,5 +1,6 @@
 # Функции для работы с торрент-клиентом qBittorrent
-
+#  Автор: Antigluk, Роман Радер [antigluk@gmail.com]
+#  http://github.com/antigluk/lostfilm
 # Поставить торрент на закачку. Вернуть 0 если ОК, другое число если ошибка.
 # $1 - локальный путь к торрент-файлу
 bt_directly_add_torrent(){

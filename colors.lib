@@ -1,5 +1,6 @@
 # Оформление вывода
-
+#  Автор: Antigluk, Роман Радер [antigluk@gmail.com]
+#  http://github.com/antigluk/lostfilm
 if [ ! "$L_COLORS_LIB" == "LOADED" ]; then
 L_COLORS_LIB="LOADED"
 
